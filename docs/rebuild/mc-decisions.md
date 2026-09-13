@@ -125,6 +125,21 @@ Recorded 2026-09-12 unless stated.
   extra environment variable, is added. The four variables in D-56 are the complete set;
   a sprint that finds it needs another one stops and raises it with Master Controller.
 
+- **D-58 Sprint 1 LiveQA round 1's `/api/health` 503 was an operator configuration
+  error, not a code defect** (recorded 2026-09-13). Vercel's production
+  `NEXT_PUBLIC_SUPABASE_URL` had a `/rest/v1/` suffix, so every PostgREST call went to an
+  invalid path (Vercel runtime log: `PGRST125` "Invalid path"). The operator corrected
+  the value to the bare project URL and redeployed at about 15:18 UTC; production then
+  returned 200 `{"ok":true,"database":true}`, confirmed in Supabase's own log. No code
+  change was made or needed. **Decision:** the live-test loop continues as the
+  lifecycle defines it — Pipeman reships sprint 1 (`/sprint-reship 1`, with the
+  round 1 required fix, the production URL recorded in `CLAUDE.md`), and LiveQA runs
+  round 2, which must itself observe the 200 on production and complete every item
+  round 1 did not run. The sprint file stays exactly as QA1 audited it; an uncommitted
+  Decision block added to it was discarded. **Lesson for later sprints:**
+  `NEXT_PUBLIC_SUPABASE_URL` is the bare `https://<project-ref>.supabase.co`, with no
+  path.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel
