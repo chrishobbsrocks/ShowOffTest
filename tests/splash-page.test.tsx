@@ -23,5 +23,11 @@ describe("SplashPage", () => {
 
     // req 2 acceptance criterion: a Tailwind utility used by token name.
     expect(logo.closest("main")).toHaveClass("bg-bg-base");
+
+    // req 7 / AC7: LiveQA round 3 found the logo rendering about 34-37%
+    // larger than the Figma Splash frame's own logo group. Pin the sizing
+    // classes so a future change can't silently regress back to the
+    // oversized w-[70%] max-w-xs that produced that finding.
+    expect(logo).toHaveClass("w-[52.4%]", "max-w-60");
   });
 });
