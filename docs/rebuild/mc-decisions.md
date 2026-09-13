@@ -113,8 +113,11 @@ Recorded 2026-09-12 unless stated.
   this project. Pipeman pushes once QA1 has passed, without asking the operator
   (operator decision, 2026-09-12). Closing a sprint still requires the operator's
   real-time word, unchanged.
-- **D-56 The operator sets production environment values in Vercel** from the variable
-  names Dev Team 1 lists in sprint 1's `.env.example`, before Pipeman's first push.
+- **D-56 The operator sets production environment values in Vercel,** Production
+  environment only, before Pipeman's first push: `NEXT_PUBLIC_SUPABASE_URL`,
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (marked sensitive) and
+  `NEXT_PUBLIC_SITE_URL` (the production URL). Preview deployments get none of them, so
+  unaudited branch code never reaches the production database.
 
 ## Leaderboards and onboarding
 
