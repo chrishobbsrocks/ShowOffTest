@@ -1,11 +1,11 @@
 {
   "id": 2,
   "title": "Accounts and session",
-  "phase": "dev_agreed_done",
+  "phase": "liveqa_live",
   "qa1_audit_result": "PASS",
   "qa1_audit_file_hash": "3ab8b86366330dce522b98dd92bae7b361bf9bf59a434e4d94c066050b1461fe",
   "qa1_audited_tree_hash": "e827808d540b00a7839ebf01e9f72657eee79dfb4d255eb5890b3a4caa60c84d",
-  "last_shipped_commit": null,
+  "last_shipped_commit": "a33b52e8dbce8faec45ca7d44bd94667a0d48aa2",
   "groundtruth_result": null,
   "audit_rounds": 2,
   "live_test_rounds": 0,
@@ -35,11 +35,17 @@
       "actor": "dev-team",
       "event": "dev_agreed_done",
       "detail": ""
+    },
+    {
+      "ts": "2026-09-13T18:17:24+00:00",
+      "actor": "pipeman",
+      "event": "shipped",
+      "detail": "commit=a33b52e | ci=undeterminable: CI run(s) for a33b52e8dbce8faec45ca7d44bd94667a0d48aa2 exist but have not finished yet: CI: still in_progress. This check does not wait for a run to complete \u2014 re-run /sprint-ship once it has finished."
     }
   ],
   "last_claim": {
-    "claude_session_id": "58063cca-2e32-4225-a22f-8652cf0fada0",
-    "claude_agent": "dev-team-1",
-    "ts": "2026-09-13T18:13:56+00:00"
+    "claude_session_id": "a1f50ac8-e570-4233-b174-1a09700d9c58",
+    "claude_agent": "pipeman",
+    "ts": "2026-09-13T18:17:24+00:00"
   }
 }
