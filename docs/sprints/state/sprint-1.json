@@ -1,14 +1,14 @@
 {
   "id": 1,
   "title": "Foundation: Next.js, tokens, Supabase, CI and production deploy",
-  "phase": "liveqa_live",
+  "phase": "complete_ready",
   "qa1_audit_result": "PASS",
   "qa1_audit_file_hash": "1494d70aad3a7df5e67c41a246914fab538ea0acd9bd93e6c5dc5f5d3f2ae62d",
   "qa1_audited_tree_hash": "91e2b6e146a39c6d4e898ec91fe23de6d9d5d1a51f1edff4e42f6cc72ba07913",
   "last_shipped_commit": "1bfccae53b104d3edf3751e65f694c67dabd97cd",
-  "groundtruth_result": "FAIL",
+  "groundtruth_result": "PASS",
   "audit_rounds": 2,
-  "live_test_rounds": 4,
+  "live_test_rounds": 5,
   "started": "2026-09-13T14:12:05+00:00",
   "completed": null,
   "history": [
@@ -89,11 +89,17 @@
       "actor": "pipeman",
       "event": "reshipped",
       "detail": "commit=1bfccae | ci=undeterminable: could not run gh to query CI runs for 1bfccae53b104d3edf3751e65f694c67dabd97cd ([Errno 2] No such file or directory: 'gh') \u2014 gh may not be installed, or the query timed out."
+    },
+    {
+      "ts": "2026-09-13T17:18:05+00:00",
+      "actor": "liveqa",
+      "event": "live_test",
+      "detail": "PASS: LiveQA round 5, sprint 1. Verdict PASS. Tested 2026-09-13 17:12-17:20 UTC against https://show-off-test.vercel.app. Deployed commit 1bfccae (D-63 fix; QA1 live-loop audit PASS recorded 317d46a; reship recorded cff2349).\nVercel get_deployment: id dpl_7Vs3fY29NFiqnBnGCSray6oFytik, target production, READY, githubCommitSha cff234900e6cc6fe204cf23c175789953020ca7c. git diff --stat 1bfccae cff2349 shows only docs/sprints/state/sprint-1.json, so the deployed app content equals 1bfccae. The live HTML carries the same dpl id.\nTools: curl (Bash); Claude in Chrome (macOS): same-origin iframes at exact sizes plus a real desktop window; Supabase MCP (read-only SELECTs); Vercel MCP (read-only); GitHub public REST API; operator-supplied screenshots.\n\nAC7 PASS per D-63 (measured, not eyeballed)\nServed img class \"h-auto w-[196.51px]\"; computed width 196.508px at every width. No percentage, max-width or viewport unit.\nMethod: getBBox over all 7 path elements of the served /brand/show-off-logo.svg (drop-shadow filters excluded): lettering geometry x0 23.61, y0 35, 331.17 x 246.82 in the 375x333 canvas. Scaled by the rendered img width / 375 and positioned from the img's in-page rect. Cross-checked with a canvas pixel scan at 2x.\n- 320x667 iframe: img 196.51x174.49 at (61.74, 246.25). Lettering 173.54 x 129.34, gaps L 74.12 / R 72.35, T 264.59 / B 273.07. Horizontal centre offset +0.89px, vertical -4.24px. Pixel scan 174 x 130. No horizontal scroll (scrollWidth equals clientWidth, 320).\n- 375x667 iframe: img 196.51x174.49 at (89.24, 246.25). Lettering 173.54 x 129.34, gaps L 101.62 / R 99.85, T 264.59 / B 273.07. H offset +0.89, V offset -4.24. Pixel scan 174 x 130. No horizontal scroll.\n- 1280x800 iframe: img at (541.74, 312.75). Lettering 173.54 x 129.34. H +0.89, V -4.24. Pixel scan 174 x 130. No horizontal scroll.\n- Real desktop window 1400x789: img 196.51x174.49 at (601.74, 307.25). Lettering 173.54 x 129.34. H +0.88, V -4.24. No horizontal scroll.\nAgainst D-63: width 173.54 vs 173.45 (+0.09, limit 2). Horizontal offset 0.89 (limit 2). Vertical offset 4.24 (limit 5). Same size at every width. Body innerText empty at every width; background black. Console: 0 messages on a tracked reload.\n\nAC9 PASS\nOperator screenshot, Supabase dashboard, org chrishobbsrocks's Org (FREE), project ShowOffTest, branch main PRODUCTION, Settings > Integrations > GitHub:\n- GitHub repository: chrishobbsrocks/ShowOffTest.\n- Working directory: \".\"\n- Deploy to production: toggle ON (\"Apply changes to your production database when you merge into your configured production GitHub branch\").\n- Production branch name: main.\n- Branching: \"Upgrade to the Pro Plan to enable branching and automatically create preview branches for every pull request\"; the Automatic branching toggle is disabled and off.\nA second operator screenshot (GitHub repo Settings > Installed GitHub Apps) lists Supabase (developed by supabase) installed on the repo.\nRead-only confirmations:\n- supabase_migrations.schema_migrations holds exactly one row: version 20260913000000, name health_check, 4 statements. The statements are the committed supabase/migrations/20260913000000_health_check.sql verbatim, including the file's own comment lines (create function; revoke all from public; revoke all from anon, authenticated, service_role; grant execute to anon). That is the shape of a file-based CLI/integration apply, with the file's own version, not a hand-applied or tool-generated version.\n- list_branches: only the default main record (is_default true, git_branch main), no preview branches.\n- Round 2 privilege check: anon true, authenticated false, public false.\nStated plainly: the screenshot shows the integration configuration, not a per-commit migration run log. \"Applied from the deployed commit\" rests on the configuration plus the verbatim statement match, not on a run log LiveQA saw.\n\nNO REGRESSION\n- AC10: /api/health 200 {\"ok\":true,\"database\":true}, 3 of 3 at 17:12:13 UTC.\n- AC13: auth/v1/settings \"mailer_autoconfirm\":true, 3 of 3 at 17:12 UTC. auth.users count 0 at 17:12:18 UTC, and no account created during this live test. No email-sending action by LiveQA in any round.\n- AC5: tracked reload, 11 requests, all to show-off-test.vercel.app (2 same-origin woff2, logo svg 304, 1 css, 6 js). None to Google Fonts hosts.\n- AC11: CI runs for 317d46a (34770630339) and cff2349 (34770641910), both event push, completed, success. No separate run exists for 1bfccae (pushed with its children). Round 3 established the step list, including \"Start local Supabase and apply migrations\".\n- AC2, AC6, AC8, AC12: files changed 539c36d to 1bfccae are app/page.tsx, tests/splash-page.test.tsx and docs only. Round 3 results (D-61 colour reading), round 1 assets and bundle scan, and the round 2 URL stand. The AC12 deployment was re-confirmed this round.\n\nRESOLVED FROM EARLIER ROUNDS\nRound 1: health 503 (D-58, operator env) and production URL. Round 2: Confirm email on (D-59, operator setting). Round 3: logo size (D-60, superseded by D-63). Round 4: logo not fixed size (D-63, fixed in 1bfccae). The round 4 process flag is closed: QA1 live-loop audit PASS for 1bfccae is on record.\n\nNon-blocking observation carried from round 3: a CI annotation warns that actions/checkout@v4, actions/setup-node@v4 and supabase/setup-cli@v1 target the deprecated Node.js 20.\n\nA PASS is not authorization to close. /sprint-complete still needs the operator's own real-time word."
     }
   ],
   "last_claim": {
-    "claude_session_id": "64fdf94a-4e1c-468d-bafc-32480aa388f3",
-    "claude_agent": "pipeman",
-    "ts": "2026-09-13T17:07:25+00:00"
+    "claude_session_id": "c5ff5cb6-9db9-515e-be15-009b5e3eab7f",
+    "claude_agent": "liveqa",
+    "ts": "2026-09-13T17:18:05+00:00"
   }
 }
