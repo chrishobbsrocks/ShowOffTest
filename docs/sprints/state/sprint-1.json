@@ -8,7 +8,7 @@
   "last_shipped_commit": "9924cb6b7e8220d351d5e346c4fe3e9664a680cf",
   "groundtruth_result": "FAIL",
   "audit_rounds": 2,
-  "live_test_rounds": 1,
+  "live_test_rounds": 2,
   "started": "2026-09-13T14:12:05+00:00",
   "completed": null,
   "history": [
@@ -53,11 +53,17 @@
       "actor": "pipeman",
       "event": "reshipped",
       "detail": "commit=9924cb6b7e8220d351d5e346c4fe3e9664a680cf | ci=undeterminable: could not run gh to query CI runs for 9924cb6b7e8220d351d5e346c4fe3e9664a680cf ([Errno 2] No such file or directory: 'gh') \u2014 gh may not be installed, or the query timed out."
+    },
+    {
+      "ts": "2026-09-13T15:42:58+00:00",
+      "actor": "liveqa",
+      "event": "live_test",
+      "detail": "FAIL: LiveQA round 2, sprint 1. Verdict FAIL. Tested 2026-09-13 15:41-15:43 UTC against https://show-off-test.vercel.app. Deployed commit 9924cb6 (reship). Tools: curl (Bash); Vercel MCP get_deployment (read-only); Supabase MCP list_migrations, get_publishable_keys and a read-only SELECT (read-only).\n\nRecorded early under liveqa.md step 7: one confirmed defect (AC13), so the remaining checks cannot change the verdict.\n\nCONFIRMED DEFECT\n1. [Blocker] AC13 / D-03 no-email rule: Supabase \"Confirm email\" is ON in production. GET https://htlzzbfrefsgyiyanoiv.supabase.co/auth/v1/settings with the project's publishable key (public by design) returned \"mailer_autoconfirm\":false. Checked 3 times (15:42 UTC), all false. Same response: disable_signup false, external.email true. Req 13 and CLAUDE.md require this setting off so that creating an account never sends mail. As things stand, the first signup (sprint 2 onward, including LiveQA's own example.com test accounts) would make Supabase send a confirmation email. This is operator dashboard config (Authentication, Sign In / Providers, Email, Confirm email), not code, the same shape as D-58. Req 13's flagged assumption holds: the endpoint does report the setting. What it reports is the wrong value. No account was created, and no email-sending action was taken.\n\nVERIFIED THIS ROUND\n- AC10 PASS: GET /api/health returned HTTP 200, body exactly {\"ok\":true,\"database\":true}. 3 of 3 runs, 15:41 UTC. Headers: content-type application/json, x-vercel-cache MISS. This observes the migration reaching production and the route calling it, per D-58's fix.\n- AC12 PASS: CLAUDE.md at 9924cb6, line 559, reads \"Production URL: https://show-off-test.vercel.app\". Vercel get_deployment on show-off-test.vercel.app: id dpl_6o38yUHRSEY4FcrkBEdtHrBqQ3vx, target production, readyState READY, source git, githubCommitRef main, githubCommitSha 8411871dc1a38d8b14c207036f4a1ed5799489f4. That is Pipeman's reship record commit, a child of 9924cb6. git diff --stat 9924cb6 8411871 shows only docs/sprints/state/sprint-1.json, so the deployed app content equals 9924cb6. The live HTML carries the same dpl id. Aliases include show-off-test.vercel.app. Also, git diff --stat b6da2ed 9924cb6 touches only CLAUDE.md, docs/rebuild/mc-decisions.md and the state file: no application code changed between rounds, consistent with D-58.\n- AC9 (partial): Supabase list_migrations on ShowOffTest (htlzzbfrefsgyiyanoiv) shows exactly one migration, 20260913000000 health_check. Read-only privilege check: has_function_privilege on public.health_check() gives anon true, authenticated false, public false, matching req 9. Integration dashboard page (applied from the deployed commit) and Branching off not yet viewed in the browser.\n- AC13 second half: SELECT count(*) from auth.users = 0 at 15:42 UTC. Must be re-checked after the live test on the next round.\n- Round 1 results for AC6 and AC8 (name-level) stand: no app code changed between b6da2ed and 9924cb6.\n\nNOT YET RUN (next round)\nAC2 computed colour tokens in the browser; AC5 browser network panel for fonts; AC7 visual at 320, 375 and desktop, console errors, Figma Splash comparison; AC9 integration dashboard view and Branching off; AC11 GitHub Actions run for the deployed commit (gh is not installed on this machine, so the check goes through the browser, D-54).\n\nOBSERVATION, NOT A DEFECT\norigin/main history carries 268a066 \"Start sprint 1\" immediately reverted by 55557bc, both touching only the sprint-1 state file. Net zero, noted for the record only.\n\nTO FIX BEFORE NEXT ROUND\nOperator: turn \"Confirm email\" off in the production Supabase project. Then LiveQA re-checks mailer_autoconfirm=true and runs the items above. No code change is indicated. Master Controller to decide whether this needs a reship or can be retested against the same deployed commit (the live-test command requires the recorded shipped commit)."
     }
   ],
   "last_claim": {
-    "claude_session_id": "7a430b94-29a2-52e9-aec7-9fffb37ef7e9",
-    "claude_agent": "pipeman",
-    "ts": "2026-09-13T15:39:51+00:00"
+    "claude_session_id": "c5ff5cb6-9db9-515e-be15-009b5e3eab7f",
+    "claude_agent": "liveqa",
+    "ts": "2026-09-13T15:42:58+00:00"
   }
 }
