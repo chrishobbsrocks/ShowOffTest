@@ -6,9 +6,9 @@
   "qa1_audit_file_hash": "1494d70aad3a7df5e67c41a246914fab538ea0acd9bd93e6c5dc5f5d3f2ae62d",
   "qa1_audited_tree_hash": "91e2b6e146a39c6d4e898ec91fe23de6d9d5d1a51f1edff4e42f6cc72ba07913",
   "last_shipped_commit": "b6da2ed6d6db5cf8691d926b7f10cd47770dffc7",
-  "groundtruth_result": null,
+  "groundtruth_result": "FAIL",
   "audit_rounds": 2,
-  "live_test_rounds": 0,
+  "live_test_rounds": 1,
   "started": "2026-09-13T14:12:05+00:00",
   "completed": null,
   "history": [
@@ -41,11 +41,17 @@
       "actor": "pipeman",
       "event": "shipped",
       "detail": "commit=b6da2ed6d6db5cf8691d926b7f10cd47770dffc7 | ci=undeterminable: could not run gh to query CI runs for b6da2ed6d6db5cf8691d926b7f10cd47770dffc7 ([Errno 2] No such file or directory: 'gh') \u2014 gh may not be installed, or the query timed out."
+    },
+    {
+      "ts": "2026-09-13T15:07:49+00:00",
+      "actor": "liveqa",
+      "event": "live_test",
+      "detail": "FAIL: LiveQA round 1, sprint 1. Verdict FAIL. Tested 2026-09-13 ~15:07 UTC against https://show-off-test.vercel.app (production, per operator; duplicate Vercel project show-off-test-n6bj deleted). Deployed commit b6da2ed. Tools: curl (Bash), Supabase MCP (read-only list_projects / list_migrations).\n\nRecorded early under liveqa.md step 7: two confirmed defects, so the remaining checks cannot change the verdict.\n\nCONFIRMED DEFECTS\n1. [Blocker] AC10: GET /api/health returns HTTP 503, body exactly {\"ok\":false,\"database\":false}. Reproduced 3 of 3 times, all 503 with the same body. Expected 200 {\"ok\":true,\"database\":true}. The failure body contains nothing extra, which matches req 10's failure branch.\n   Diagnostic, not a fix: Supabase project ShowOffTest (ref htlzzbfrefsgyiyanoiv, ACTIVE_HEALTHY) lists migration version 20260913000000, name health_check, as applied. The migration path reached production. The break is between the deployed server function and the database, not the migration. Operator reports the production env vars are set. Candidates for Dev Team: the env var values point at a different project or key; the key format is not handled (req 8 sb_ vs legacy); the vars were added after the build and production was never redeployed; health_check execute grant or the anon/publishable role. Not verified by LiveQA. I did not open the Vercel dashboard or runtime logs, and I read no values.\n2. [Required] AC12: CLAUDE.md line 559 still reads \"Production URL: _to be recorded here by Pipeman after the first deploy\". Req 12 requires the production URL in CLAUDE.md project standards. Commit b6da2ed does not include it.\n\nCHECKS THAT PASSED (partial, for the record)\n- AC6: /avatars/avatar-1.svg 200; /arenas/arena-06-badge.png 200; /host/host-10-greetings.png 200; /brand/show-off-logo.svg 200.\n- AC8 (name-level): all 7 JS chunks referenced from / downloaded. 0 files contain SUPABASE_SECRET_KEY, 0 contain sb_secret_, 0 contain service_role. Key-value prefix search not done (LiveQA holds no key value, by design).\n- AC5 (partial, from HTML only): fonts preload from /_next/static/immutable/media/*.woff2 (self-hosted). No fonts.googleapis.com or fonts.gstatic.com reference in the HTML. Browser network panel check not yet done.\n- AC7 (partial, from HTML only): / renders main.bg-bg-base with a single img of /brand/show-off-logo.svg, alt \"Show Off\", and no visible text nodes. Visual check at 320/375/desktop, console errors and Figma comparison not yet done.\n- AC9 (partial): baseline migration applied on production, see above. Integration dashboard view and Branching off not yet checked.\n\nNOT YET RUN (retest on reship)\nAC2 computed colour tokens in the browser; AC5 network panel; AC7 visual at 3 widths plus console; AC9 integration dashboard; AC11 GitHub Actions run for the deployed commit; AC12 Vercel production deployment shows the deployed commit; AC13 auth settings mailer_autoconfirm plus empty auth user list.\n\nTO FIX BEFORE RESHIP\nDev Team: make /api/health return 200 {\"ok\":true,\"database\":true} on production and find the actual cause (report to Master Controller if it is operator config, per req 9). Record the production URL in CLAUDE.md (req 12). Pipeman: sprint-reship."
     }
   ],
   "last_claim": {
-    "claude_session_id": "a86c0277-4e35-4fb4-ba4c-379cb8d0d7ba",
-    "claude_agent": "pipeman",
-    "ts": "2026-09-13T14:57:54+00:00"
+    "claude_session_id": "c5ff5cb6-9db9-515e-be15-009b5e3eab7f",
+    "claude_agent": "liveqa",
+    "ts": "2026-09-13T15:07:49+00:00"
   }
 }
