@@ -1,0 +1,11 @@
+{
+  "next_id": 2,
+  "sprints": {
+    "1": {
+      "title": "Foundation: Next.js, tokens, Supabase, CI and production deploy",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-1_foundation-next-js-tokens-supabase-ci-and-production-deploy.md"
+    }
+  }
+}

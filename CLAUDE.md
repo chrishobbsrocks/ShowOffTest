@@ -493,6 +493,24 @@ everything in the base schema.
 
 ## Show Off rebuild standards
 
+**Stack facts** (PRD section 4, carried into project standards per its rules of
+engagement):
+
+| Item | Value |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Styling | Tailwind CSS 4, with every design token exposed by name |
+| Data and auth | Supabase: Postgres, Row Level Security, Auth with email and password |
+| Hosting | Vercel, with production built from `main` |
+| Runtime | Node 24.x |
+| Tests | Vitest with Testing Library, using jsdom |
+| Typefaces | Bebas Neue for display text only; Space Grotesk at weights 400 and 500 for everything else |
+| Hosted database | One Supabase project serves production. There is no per-branch database. |
+| Credential holder | Chris Hobbs provisions and holds every secret and account credential. |
+
+**Decisions of record** live in `docs/rebuild/mc-decisions.md`. The product
+requirements are `docs/rebuild/show-off-rebuild-prd.md`. Sprint files cite both.
+
 **No email is sent or tested, by any role, in any environment** (operator
 decision, 2026-09-12, after Supabase warned the account about spam). Nothing
 in development, CI, or LiveQA's live tests may cause Supabase, or any other
