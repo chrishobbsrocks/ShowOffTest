@@ -58,7 +58,7 @@ This sprint ships no product features and no product copy. Its only visible scre
 ### Dependencies
 - Blocks: sprint 2 (accounts) and sprint 3 (question bank).
 - Blocked by: nothing. Inputs are committed (`e18021d`).
-- External: all done by the operator on 2026-09-12 — Supabase and Vercel projects exist; Docker Desktop is installed; the four D-56 variables are set in Vercel (Production only); Supabase's GitHub integration is connected to `chrishobbsrocks/ShowOffTest`. Dev Team still writes the integration procedure into `CLAUDE.md` (requirement 9) and verifies its settings (deploy from `main`, Branching off) with the operator if LiveQA cannot see them.
+- External: operator setup as of 2026-09-12. **Verified:** Supabase and Vercel projects exist; Docker Desktop is installed and its engine reachable; the four D-56 variable names are set in Vercel, Production only (values not seen, by design). **Not yet verified:** the Supabase side of the GitHub integration — GitHub has granted the Supabase app access to `chrishobbsrocks/ShowOffTest`, but the Supabase project's integration settings (this repository selected, working directory `.`, Deploy to production on for `main`, automatic branching off) have not been seen by anyone. Before Pipeman's first push of this sprint, Dev Team confirms those settings with the operator (or LiveQA views them read-only, D-54); if they are not in place, that is an operator setup item, not a code defect.
 - **Ready to build:** Requirements
 
 ### Team Assignments
