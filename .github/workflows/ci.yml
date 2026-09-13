@@ -1,0 +1,52 @@
+name: CI
+
+# Sprint 1, req 11 (NFR-4): every push, on every branch, and every pull
+# request. No production secret is used or needed — this job only ever
+# talks to the local Supabase stack it starts itself (D-53).
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.x"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local Supabase and apply migrations
+        run: supabase start
+
+      - name: Export local Supabase connection details for tests
+        run: |
+          set -euo pipefail
+          STATUS=$(supabase status -o json)
+          {
+            echo "NEXT_PUBLIC_SUPABASE_URL=$(echo "$STATUS" | node -pe 'JSON.parse(require("fs").readFileSync(0)).API_URL')"
+            echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(echo "$STATUS" | node -pe 'JSON.parse(require("fs").readFileSync(0)).PUBLISHABLE_KEY')"
+            echo "SUPABASE_SECRET_KEY=$(echo "$STATUS" | node -pe 'JSON.parse(require("fs").readFileSync(0)).SECRET_KEY')"
+            echo "NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000"
+          } >> "$GITHUB_ENV"
+
+      - name: Test (Vitest, jsdom, incl. database tests against the local stack)
+        run: npm test
+
+      - name: Build
+        run: npm run build

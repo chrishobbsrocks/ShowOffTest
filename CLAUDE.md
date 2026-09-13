@@ -542,3 +542,90 @@ service, to send an email.
   the operator explicitly authorizes it later.
 - A sprint whose acceptance criteria appear to need an email sent is
   blocked back to Master Controller (`/sprint-block`), never worked around.
+
+**No-email configuration check, verified (sprint 1, req 13).** `GET
+<SUPABASE_URL>/auth/v1/settings` (with just the `apikey` header — no
+session, no account) is a real, public GoTrue endpoint and does report a
+`mailer_autoconfirm` boolean, confirmed against the local stack (same
+GoTrue engine as production): `{"mailer_autoconfirm": true, ...}` with
+`enable_confirmations = false` in `supabase/config.toml`. The *mechanism*
+Dev Team was asked to verify holds. What this does **not** prove is
+production's actual current setting — only the operator's dashboard or
+LiveQA hitting the real production URL can confirm that "Confirm email" is
+actually off there before the live test. No account was created anywhere
+in this verification; the local check is a stack Dev Team can freely
+create/delete accounts against by design (D-53), and none were created.
+
+**Production URL:** _to be recorded here by Pipeman after the first deploy
+(sprint 1, req 12)._
+
+**Local development database (sprint 1, req 14; D-53).** Requires Docker
+Desktop running. The Supabase CLI is a dev dependency (`npm install` pulls
+it in; no separate global install).
+
+```
+npm run db:start   # starts the local stack, applies every migration from scratch
+npm run db:stop     # stops it
+npm run db:reset    # re-applies every migration from scratch against the running stack
+```
+
+`npm run db:start` prints a `PUBLISHABLE_KEY`, a `SECRET_KEY` and an
+`API_URL` for the **local** stack — copy those into `.env.local` (see
+`.env.example`) as `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`,
+`SUPABASE_SECRET_KEY` and `NEXT_PUBLIC_SUPABASE_URL` respectively, plus
+`NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000`. These local values are not
+secrets — they're the same well-known local-only keys on every machine —
+but `.env.local` still isn't committed (`.gitignore`), the same as any
+other env file. Nothing in the repository reads production credentials for
+development or for tests: CI starts this same local stack fresh for every
+run (see the CI workflow below) and no role but the operator ever holds a
+production key.
+
+**Migration path to production (sprint 1, req 9; D-50).** Migrations are
+plain SQL files under `supabase/migrations/`, applied locally with
+`npm run db:start` / `npm run db:reset`. They reach the one production
+database through Supabase's GitHub integration, which applies pending
+migrations on push to `main` — there is no separate deploy step or secret
+Pipeman needs to hold. To set the integration up (one-time, done by the
+operator in the Supabase dashboard): Project Settings → Integrations →
+GitHub → connect `chrishobbsrocks/ShowOffTest`, working directory `.`,
+**Deploy to production on** push to `main`, and leave Branching off (one
+production database — no per-branch database, per the stack facts table
+above).
+
+*If a migration fails to apply after a push* (the deployed commit's
+`GET /api/health` returns `{"ok":false,"database":false}`, or the endpoint
+itself 404s): check the Supabase dashboard's GitHub integration page first
+— it shows the last migration run and its error output per commit. Do not
+attempt to hand-fix the production schema through the SQL editor or CLI
+(NFR-5: the repository is the source of truth). A failed migration is
+fixed by committing a new corrective migration — never by editing or
+deleting the one that failed, and never by force-pushing — then letting
+the integration re-run on the next push. Because migrations apply on push
+before LiveQA ever sees the commit, every migration is QA1-audited before
+Pipeman pushes it (see Risks & Mitigations in sprint 1's own file), and a
+migration that reached production in error is undone with a forward
+migration, per the same rule.
+
+**Direct-push deploy trigger — still unproven (sprint 1, req 9).** Locally,
+the baseline migration applies cleanly (`npm run db:start` runs it from
+scratch; the local `anon` role can call `health_check()` and gets `true`,
+`service_role` is correctly denied with 403 — verified against the local
+stack while building this sprint). What's *not* yet proven is whether
+Supabase's GitHub integration actually deploys on Pipeman's direct push to
+`main` (no pull request) the way it does on a merge — the integration's own
+UI describes merges, not direct pushes. `GET /api/health` on production
+after the first push settles it: `to be recorded here by Pipeman/LiveQA` —
+`{"ok":true,"database":true}` proves it deployed on direct push; anything
+else means Dev Team stops and reports to Master Controller rather than
+working around it, per this requirement.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

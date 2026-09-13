@@ -7,3 +7,36 @@ docs/sprints/.locks/
 
 # Local role-session state (not durable project data)
 .claude/role-claims.json
+
+# Next.js
+/.next/
+/out/
+next-env.d.ts
+
+# Node dependencies
+/node_modules/
+
+# Build output
+/build/
+*.tsbuildinfo
+
+# Env files with real values — only .env.example is committed
+.env
+.env.local
+.env.*.local
+
+# Test / coverage output
+/coverage/
+
+# Supabase CLI local runtime state
+/supabase/.temp/
+/supabase/.branches/
+
+# Editor / OS
+*.log
+npm-debug.log*
+*.pem
+
+# Vercel CLI local linking
+.vercel
+
