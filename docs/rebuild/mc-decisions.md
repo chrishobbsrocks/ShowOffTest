@@ -78,6 +78,18 @@ Recorded 2026-09-12 unless stated.
   session as the reviewer.
 - **D-37 The arena-unlocked modal (4.01–4.05) has no dismiss control in the design.**
   A GAP `Continue` button is added, recorded before the arenas sprint.
+- **D-38 RND-14's correct-answer count appears on the result screen** (`n/10 CORRECT`,
+  from the server's record). Frame 6.05 is the feedback for question 10, not a separate
+  summary screen.
+- **D-39 Pre-match host lines depend on the player's record:** no matches, displayed
+  streak ≥3, or otherwise. Strings in `screen-copy.md`.
+- **D-46 An unanswered question shows its own feedback state** (`TIME'S UP!`), with the
+  fact, and still needs `Next question`, like a wrong answer.
+- **D-47 `See result` after question 10 submits the round** (RND-12). There is no separate
+  submit control.
+- **D-48 The `+ n pts` indicator during a question is the speed bonus still available**,
+  `round(100 × max(0, 15000 − elapsed_ms) / 15000)`, counted down from the server's
+  delivery time. The warning state (6.02) starts at 5,000 ms left.
 
 ## Delivery
 
@@ -100,3 +112,34 @@ Recorded 2026-09-12 unless stated.
   titled `TROPHIES DON'T LIE` and `KNOWING ISN'T ENOUGH`, each with `Got it`. Closing
   the second card completes the tutorial and returns to home. Overrides ONB-3's step-1
   quote and ONB-5's "Continue into a first match".
+- **D-42 The profile shows the current arena** (arena tag and label) under the
+  member-since line, styled like the arena label on the home screen. The design has no
+  arena on the profile; PRO-1 requires it.
+- **D-43 The tutorial lives at `/tutorial`,** rendered as the modal over the new-user
+  home, opened by `See how it works`. It is never shown automatically. Once completed,
+  `See how it works` is no longer shown and `/tutorial` redirects to home.
+- **D-44 Account deletion** is reached from the profile edit menu (`Delete account`), on
+  its own screen. Deleting requires typing the player's current display name
+  (case-insensitive) and pressing `Delete my account`. The request carries a single-use
+  confirmation token issued when the screen loads; a replayed or reused token is refused.
+- **D-45 Until their features exist, signed-in routes are shells.** From sprint 2,
+  signed-in players land on `/home` (the new-user home). `/play` and `/leaderboard` exist
+  as protected routes that render the tab bar and background only, with no invented copy,
+  until the sprints that build them.
+
+## Sprint plan (2026-09-12)
+
+| Sprint | Scope | Team | Parallel with |
+|---|---|---|---|
+| 1 | Foundation | Dev Team 1 | — |
+| 2 | Accounts and session | Dev Team 1 | 3 |
+| 3 | Question bank | Dev Team 2 | 2 |
+| 4 | Profile editing and password reset | Dev Team 2 | 5 |
+| 5 | Opponents and match start | Dev Team 1 | 4 |
+| 6 | Round play | Dev Team 1 | — |
+| 7 | Scoring, submission and results | Dev Team 1 | — |
+| 8 | Arenas, promotion and best rank | Dev Team 1 | 9 |
+| 9 | Profile record | Dev Team 2 | 8 |
+| 10 | Leaderboards | Dev Team 1 | 11 |
+| 11 | Tutorial | Dev Team 2 | 10 |
+| 12 | Account deletion | Dev Team 1 | — |

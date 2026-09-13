@@ -72,10 +72,10 @@ design), so `Passwords need to match` is not used on this screen.
 
 - `Sign in to pick up where you left off.`
 - `Forgot Password?`
-- `Don't have an account?`
+- `Don’t have an account?` (curly apostrophe, as in the inventory)
 - `Sign up`
 - `Sign in`
-- `Enter your email and we'll send a reset link.`
+- `Enter your email and we’ll send a reset link.` (curly apostrophe, as in the inventory)
 - `Send password reset link`
 - `Go back to Log in`
 - `A password reset link was sent to your email. Check your inbox (or spam folder) to reset your new password.`
@@ -116,12 +116,224 @@ the change-password screen.** Do not carry the log-in screen's non-disclosure
 reasoning over here by reflex: inside an authenticated account there is
 nothing to enumerate, and this string is design-sourced.
 
-## Result screens
+## Rebuild copy by screen (recorded 2026-09-12, before sprints 2–12)
 
-**GAP: the draw result was never drawn** (decided in PRD section 6.6):
+Every string below is one of: **DESIGN** (in the inventory, verbatim), **DESIGN-LIVE**
+(on a live Figma frame but not in the inventory; D-02), or **GAP** (written by Master
+Controller). Punctuation, apostrophes and double spaces are exactly as shown. Letter
+case shown for headings is how they display; the design sets many headings in
+uppercase with CSS, so the source string may be in another case. Numbers, names and
+scores in the design are fixture data, and only their *format* is specified here.
 
-- Headline: `DEAD HEAT.`
-- Body: `Same score. Same speed. Nobody moves.`
+### Global
+
+| Use | String | Source |
+|---|---|---|
+| Generic fallback error, any failure without its own message (NFR-7) | `Something went wrong. Try again.` | GAP |
+| Tab bar | `Home` · `Leaderboard` · `Profile` | DESIGN / DESIGN-LIVE |
+| Back link | `Back` | DESIGN |
+
+### Landing (1.00)
+
+| Use | String | Source |
+|---|---|---|
+| Tagline above logo | `Earn trophies` · `Climb arenas` (separated by the star glyph) | DESIGN |
+| Host caption | `Think you know stuff? Let's find out.` | DESIGN |
+| Primary button | `Get started` | DESIGN-LIVE (D-13) |
+| Log-in prompt | `Already have an account?` then link `Log in` | DESIGN |
+
+The Terms line and `v1.0` are not shown (PRD scope).
+
+### Create account (1.01–1.05)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `CREATE ACCOUNT` | DESIGN-LIVE |
+| Avatar picker label | `Choose your avatar` | DESIGN |
+| Placeholders | `Display name [2-10 characters]` · `Email` · `Password (min 8 characters)` | DESIGN-LIVE (D-11) |
+| Button | `Create account` | DESIGN |
+| Log-in prompt | `Already have an account?` then link `Sign in` | DESIGN |
+| Reserved name (D-31) | `This display name is already taken. Try a different name.` | DESIGN (same message as a taken name, deliberately) |
+
+`Or`, `Continue with Google` and both Terms lines are not shown (PRD scope).
+
+### Log in (2.01)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `WELCOME BACK` | DESIGN-LIVE |
+| Placeholders | `Email` · `Password (min 8 characters)` | DESIGN-LIVE (D-11) |
+| Button | `Log in` | DESIGN |
+| Sign-up prompt | `Don’t have an account?` then link `Sign up` | DESIGN |
+
+### Password reset request (2.02–2.04)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `RESET PASSWORD` | DESIGN-LIVE |
+| Sent heading | `CHECK YOUR INBOX` | DESIGN-LIVE |
+
+### Set a new password (no frame; D-12, layout from 8.12)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `SET NEW PASSWORD` | GAP |
+| Field labels | `New password` · `Confirm New password` | DESIGN |
+| Placeholders | `Password (min 8 characters)` · `Confirm new password` | DESIGN-LIVE |
+| Button | `Save changes` | DESIGN |
+| Mismatch | `Passwords need to match` | DESIGN |
+| Expired or used link | `This reset link has expired or has already been used.` | GAP (ACC-9) |
+| Link under the expired message | `Request a new reset link` | GAP |
+| After success, shown on the log-in screen | `Your password has been updated.` | GAP (PRO-8) |
+
+### Log out confirmation (8.14)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `Leaving already?` | DESIGN |
+| Body | `Your trophies will be here when you get back.` | DESIGN |
+| Buttons | `Log out` · `Cancel` | DESIGN |
+
+### New-user home (3.00)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `YOUR KNOWLEDGE + YOUR SPEED = YOUR TROPHIES` | DESIGN |
+| Arena label | from arena data (`Arena 1 · Warm Up`) | DESIGN |
+| Body | `10 questions. 1 opponent. The faster you answer correctly, the more you score. Climb the arenas...if you can.` | DESIGN |
+| Buttons | `Let’s play` · `See how it works` | DESIGN |
+| Host lines | `Fresh meat. I like it.` · `Welcome to the Arena.` | DESIGN |
+
+### Tutorial (3.01–3.02; D-41)
+
+| Use | String | Source |
+|---|---|---|
+| Card 1 heading | `TROPHIES DON'T LIE` | DESIGN |
+| Card 1 body | `Win and you climb.  Lose and you drop. 6 Arenas stand between you and Legend. Can you reach the top?` (two spaces after the first full stop) | DESIGN |
+| Card 2 heading | `KNOWING ISN'T ENOUGH` | DESIGN |
+| Card 2 body | `You and your opponent can both get it right. The faster one wins. Every second you hesitate costs you points. Your opponent isn't waiting.` | DESIGN |
+| Button on both cards | `Got it` | DESIGN |
+| Completion could not be saved | `We couldn't save your progress. Try again.` | GAP |
+| Retry button | `Try again` | GAP |
+
+### Profile (8.01, 8.07–8.09; D-23)
+
+| Use | String | Source |
+|---|---|---|
+| Member since | `Showing off since Apr 1, 2026` (format: `Showing off since` + `MMM D, YYYY`) | DESIGN |
+| Trophies card label | `TROPHIES` | GAP (D-23: current total, so "HIGHEST" would be untrue) |
+| Win rate card label | `WIN RATE` | DESIGN |
+| Best streak card label | `BEST STREAK` | DESIGN |
+| Current streak card label (replaces Perfect games) | `CURRENT STREAK` | GAP |
+| Locked stat, no matches or no wins yet | `Win to unlock` | DESIGN |
+| No-matches card | `Play your first match to start building your record.` with button `Let’s play` | DESIGN |
+| Log out link | `Log out` | DESIGN |
+| Edit menu (8.15) | `Edit profile` · `Update password` · `Delete account` · `Cancel` | DESIGN, `Delete account` GAP |
+
+### Edit profile and update password (8.10–8.13)
+
+| Use | String | Source |
+|---|---|---|
+| Headings | `EDIT PROFILE` · `UPDATE PASSWORD` | DESIGN-LIVE |
+| Labels | `Choose your avatar` · `Display name` · `Current password` · `New password` · `Confirm New password` | DESIGN |
+| Placeholders | `Current password` · `Password (min 8 characters)` · `Confirm new password` | DESIGN-LIVE |
+| Buttons | `Cancel` · `Save changes` | DESIGN |
+| Wrong current password | `Invalid password` | DESIGN |
+| Password updated | `Your password has been updated.` | GAP (PRO-8) |
+
+### Finding a match and pre-match (4.00, 5.00, 5.01; D-32, D-33)
+
+| Use | String | Source |
+|---|---|---|
+| Searching | `Finding your opponent...` | DESIGN |
+| Heading | `Opponent Found` (displays uppercase) | DESIGN |
+| Divider | `VS` | DESIGN |
+| Countdown | `Starting in 3 seconds...` (the number counts 3, 2, 1: `Starting in 2 seconds...`, `Starting in 1 second...`) | DESIGN, singular form GAP |
+| Final beat | `GO!` | DESIGN |
+| Host lines, player has no matches | `Fresh start. Clean record.` · `Let's ruin that immediately.` | DESIGN |
+| Host lines, player's displayed streak ≥3 | `On a roll! Can ANYONE` · `stop this machine?!` | DESIGN |
+| Host lines, every other player | `Another round.` · `Try not to blink.` | GAP |
+| No usable opponent | `No opponents are available right now. Try again in a minute.` | GAP (D-32) |
+
+### Question and answer (6.01–6.05; D-34, D-35)
+
+| Use | String | Source |
+|---|---|---|
+| Progress label | `Q 1/10` (format `Q n/10`), followed by the question's setup line in the category slot | DESIGN (D-35) |
+| Scores | `YOU:` `340 pts` · `THEY:` `290 pts` (format `n pts`) | DESIGN |
+| Speed points still available | `+ 60 pts` (format `+ n pts`) | DESIGN |
+| Player result | `YOU GOT IT RIGHT` · `YOU GOT IT WRONG` · `YOU DIDN'T ANSWER` | DESIGN, last GAP |
+| Opponent result | `THEY GOT IT RIGHT` · `THEY GOT IT WRONG` · `THEY DIDN'T ANSWER` | DESIGN, last GAP |
+| Correct | `CORRECT!` · host `Not bad, not bad at all.` | DESIGN |
+| Wrong | `WRONG!` · host `You had four options. Four.` | DESIGN |
+| Unanswered (RND-5) | `TIME'S UP!` · host `The clock doesn't wait. Neither do I.` | GAP |
+| Fact prefix | `💡 ` then the fact | DESIGN |
+| Buttons | `Next question` · `See result` (after question 10) | DESIGN |
+| Round expired (RND-9) | `This round has expired. Start a new match from home.` | GAP |
+
+### Results (7.00, 7.01, 7.03, draw)
+
+| Use | String | Source |
+|---|---|---|
+| Win | `You win!` (displays uppercase) · `THAT’S HOW IT’S DONE.` · host `Crushed it! Your opponent just got SCHOOLED!` | DESIGN |
+| Loss | `You LOSE.` (displays uppercase) · `THEY GOT YOU.` · host `Bad luck! Shake it off and let’s get back in there!` | DESIGN |
+| Draw | headline `DEAD HEAT.` · host `Same score. Same speed. Nobody moves.` (no sub-heading) | GAP (PRD 6.6) |
+| Trophy change | `+ 19 TROPHIES` · `- 26 TROPHIES` · draw `0 TROPHIES` | DESIGN, draw GAP |
+| Total | `TOTAL` | DESIGN |
+| Streak line, displayed streak ≥3 and a new best | `6 win streak! New best!` (format `n win streak! New best!`) | DESIGN |
+| Streak line, displayed streak ≥3, not a new best | `6 win streak!` | GAP |
+| Per player | `2/10 CORRECT` (format `n/10 CORRECT`) · `259 pts` | DESIGN |
+| Buttons | `Home` · `Play again` | DESIGN |
+
+The streak line is not shown when the displayed streak is below 3 (D-21).
+
+### Arena home and promotion (3.04–3.09, 4.01–4.05; D-24, D-37)
+
+| Use | String | Source |
+|---|---|---|
+| Stats | `Current winning streak` · `Total wins` · `Total losses` · `Win rates` | DESIGN |
+| Button | `Let’s play` | DESIGN |
+| Host lines | `I believe in you...` · `...most of the time.` | DESIGN |
+| Promotion heading | `ARENA UNLOCKED!` | DESIGN |
+| Promotion lines, arenas 2–6 | `New arena. Same you.  Let’s see if that’s enough.` · `You're moving up. This is where the real game starts.` · `The guessing stops working here. Just so you know.` · `Five arenas in and you're still here. Respect.` · `Legend. I have nothing sarcastic to say. That's how rare this is.` | DESIGN (inventory wins over the PRD's quotation where they differ in apostrophes or spacing) |
+| Promotion dismiss | `Continue` | GAP (D-37) |
+
+### Leaderboards (9.00–9.03; D-40)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `LEADERBOARD` | DESIGN |
+| Viewer's rank, global | `You rank #99 in Global Arena` (format `You rank #n in Global Arena`) | DESIGN |
+| Viewer's rank, an arena | `You rank #1 in Arena 2` (format `You rank #n in Arena N`) | DESIGN |
+| Viewer has no matches yet (LDB-5) | `Play your first match to get ranked.` | GAP |
+| Locked arena | `You haven't made it here yet.` | DESIGN |
+| Archived arena | `You conquered Arena 1. Best rank: 6.` (format `You conquered Arena N. Best rank: R.`) | DESIGN |
+| Podium places | `1ST` · `2ND` · `3RD` | DESIGN |
+| Board with no ranked players | `Nobody's ranked here yet.` | GAP |
+
+`Weekly` and `Monthly` are not shown; the board is all-time only (PRD scope).
+
+### Account deletion (no frame; DEL-3, D-44)
+
+| Use | String | Source |
+|---|---|---|
+| Heading | `DELETE ACCOUNT` | GAP |
+| Body, paragraph 1 | `Deleting your account is permanent and cannot be undone.` | GAP |
+| Body, paragraph 2 | `Your profile, match history, trophies and rankings will be removed. Your past runs stay in the game as opponents for other players, shown as Deleted Player.` | GAP |
+| Body, paragraph 3 | `Your display name will become available for anyone to register.` | GAP |
+| Confirmation label | `Type your display name to confirm` | GAP |
+| Buttons | `Delete my account` · `Cancel` | GAP |
+| Typed name does not match | `That doesn't match your display name.` | GAP |
+| Completion, shown on the landing page | `Your account has been deleted.` | GAP |
+
+### Starter opponents (D-31)
+
+Display names, reserved from registration (case-insensitive):
+`Buddy` · `CodeLord` · `VegasCat` · `iMonster` · `Ken` · `CoolGal` · `ABC01` · `Trivianna` ·
+`FactCheck` · `BrainFog` · `Lucky7` · `NightOwl` · `Smartypant` · `KnowItAll` · `Guesswork` ·
+`SlowPoke` · `Zippy` · `Hotshot` · `QuizKid` · `MissTake`
+
+Anonymised ghosts of deleted players show `Deleted Player` (DEL-1).
 
 ---
 

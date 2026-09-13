@@ -79,12 +79,13 @@ These appear by name in the component definitions. Sizes are as written there.
 | `type-link` | Space Grotesk 400, 14px |
 | `type-caption` | Space Grotesk 400, 12px |
 | `type-legal` | Space Grotesk 400, 10px |
-| `type-error` | named in the specs; size not stated in what was captured |
+| `type-error` | Space Grotesk 400, 11px / 100% |
 
-**`type-error` is the one gap.** It is referenced by the input error state and
-the avatar-picker error, but no size was given in the captured text. Leave it
-unset rather than inventing a value, and resolve it when Figma access returns —
-there is a full `Typography` table on that page that was not captured.
+**`type-error` resolved 2026-09-12.** The Typography table on `_Design System`
+renders its last three rows illegibly, so the value was read from the live error
+text node `Need at least 2 characters.` on frame 1.05 (Figma Properties panel):
+Space Grotesk, weight 400, 11px, line height 100%, colour `#FDBDBE`
+(`--color-error-text`).
 
 ---
 

@@ -18,7 +18,7 @@ This sprint ships no product features and no product copy. Its only visible scre
 
 ### Requirements
 1. **Application scaffold.** A Next.js 16 App Router app with React 19 and TypeScript in strict mode, at the repository root, running on Node 24.x (declared in `package.json` `engines`). The framework's own directories (`scripts/`, `.claude/`, `templates/`, `docs/sprints/`) are untouched and excluded from linting and type checking. `.gitignore` covers dependencies, build output and local env files.
-2. **Every design token reaches the browser (NFR-1, P6).** All 17 tokens in `docs/design/design-tokens.md` — the 10 colours and the 7 shape, padding, shadow and border tokens — are defined once, as CSS custom properties with exactly the names in that file (for example `--color-bg-base`), with exactly its values, and are exposed as Tailwind CSS 4 theme values usable by name. The type tokens that file lists with values (`type-input`, `type-button`, `type-body`, `type-link`, `type-caption`, `type-legal`) are defined the same way. `type-error` is left undefined, as that file instructs; Master Controller resolves it before sprint 2.
+2. **Every design token reaches the browser (NFR-1, P6).** All 17 tokens in `docs/design/design-tokens.md` — the 10 colours and the 7 shape, padding, shadow and border tokens — are defined once, as CSS custom properties with exactly the names in that file (for example `--color-bg-base`), with exactly its values, and are exposed as Tailwind CSS 4 theme values usable by name. The type tokens that file lists with values (`type-input`, `type-button`, `type-body`, `type-link`, `type-caption`, `type-legal`, `type-error`) are defined the same way.
 3. **No literal colours in components (P6).** An automated check, run as part of the test suite or lint, fails if a hex, `rgb()` or `hsl()` colour literal appears in application source outside the single token stylesheet.
 4. **Token drift test.** An automated test reads `docs/design/design-tokens.md`, and fails if any of the 17 token names or values in it is missing from, or differs from, the shipped token stylesheet.
 5. **Typefaces.** Bebas Neue (400) and Space Grotesk (400 and 500) load in production without layout-blocking requests to a third-party host at runtime. The mechanism is the team's choice.
@@ -33,7 +33,7 @@ This sprint ships no product features and no product copy. Its only visible scre
 
 ### Acceptance Criteria
 1. QA1: `package.json` pins Next 16.x, React 19.x and TypeScript with `strict: true`; `engines.node` is `24.x`; lint and type-check configs exclude the framework directories; `git diff` shows no change under `scripts/`, `.claude/`, `templates/` or `docs/sprints/` other than lifecycle bookkeeping.
-2. QA1: the token stylesheet defines all 17 tokens with names and values identical to `docs/design/design-tokens.md` (checked line by line), plus the six valued type tokens, and no `type-error`. A Tailwind utility is used by token name in at least the Splash screen. LiveQA: on production, `getComputedStyle(document.documentElement)` returns each of the 10 colour tokens' values exactly.
+2. QA1: the token stylesheet defines all 17 tokens with names and values identical to `docs/design/design-tokens.md` (checked line by line), plus the seven valued type tokens, including `type-error` at Space Grotesk 400, 11px, 100% line height. A Tailwind utility is used by token name in at least the Splash screen. LiveQA: on production, `getComputedStyle(document.documentElement)` returns each of the 10 colour tokens' values exactly.
 3. QA1: the check exists and runs in CI. Adding a hex literal to a component on a scratch branch makes it fail (Dev Team shows this in a test, or QA1 confirms the rule by reading it).
 4. QA1: the test exists, parses the tokens file rather than a hardcoded copy of it, and a deliberately changed value in the stylesheet makes it fail.
 5. LiveQA: on production, both families render in the browser's computed fonts, and no font request goes to `fonts.googleapis.com` or `fonts.gstatic.com` at page load (checked in the network panel).
@@ -50,7 +50,7 @@ This sprint ships no product features and no product copy. Its only visible scre
 - Any authentication, route beyond `/` and `/api/health`, tab bar or navigation — sprint 2 onward.
 - Any database table — each feature sprint adds its own migrations.
 - Any product copy, GAP strings or arena data — they belong to the sprints that use them.
-- Type tokens not listed with values in `design-tokens.md` (for example `type-display`) and the `type-error` size — Master Controller records them before the sprint that needs them.
+- Type tokens not listed with values in `design-tokens.md` (for example `type-display`) — Master Controller records them before the sprint that needs them.
 - Icon library choice — decided in the first sprint that needs an icon.
 
 ### Dependencies
