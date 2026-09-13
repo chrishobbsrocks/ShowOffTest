@@ -69,4 +69,32 @@ describe("SignupForm", () => {
     expect(screen.getByLabelText("Password")).toHaveValue("longenoughpassword");
     expect(screen.getAllByRole("radio")[2]).toHaveAttribute("aria-checked", "true");
   });
+
+  it("clears a stale server field error once the player edits that field (QA1 round 1, should-fix item 4)", async () => {
+    signupActionMock.mockResolvedValue({
+      values: { avatar: null, displayName: "", email: "", password: "" },
+      fieldErrors: { displayName: "This display name is already taken. Try a different name." },
+    });
+    const { SignupForm } = await import("@/app/signup/SignupForm");
+    render(<SignupForm />);
+    const user = userEvent.setup();
+
+    await user.type(screen.getByLabelText("Display name"), "Taken");
+    await user.click(screen.getByRole("button", { name: "Create account" }));
+
+    expect(
+      await screen.findByText("This display name is already taken. Try a different name."),
+    ).toBeInTheDocument();
+
+    // The server error must never have been able to run its own
+    // validation on the edit that follows — only editing the field should
+    // clear it. Appending one character keeps the display name well
+    // within the valid 2-10 range, so if the stale server message were
+    // still showing after this edit, that would prove it isn't clearing.
+    await user.type(screen.getByLabelText("Display name"), "2");
+
+    expect(
+      screen.queryByText("This display name is already taken. Try a different name."),
+    ).not.toBeInTheDocument();
+  });
 });

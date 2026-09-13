@@ -101,12 +101,28 @@ function isReservedDisplayName(trimmed: string): boolean {
   return RESERVED_DISPLAY_NAMES.some((reserved) => reserved.toLowerCase() === lower);
 }
 
+/**
+ * Counts Unicode code points, matching Postgres's `char_length` (which
+ * the display-name length constraint in
+ * supabase/migrations/20260913010000_profiles.sql uses) rather than
+ * `string.length`, which counts UTF-16 code units. An astral-plane emoji
+ * is one code point but two UTF-16 units, so `.length` disagreed with
+ * `char_length` in both directions (a six-emoji name is 6 code points but
+ * 12 units; this module's old `.length` check rejected it as too long
+ * while the DB would have accepted it). `Array.from` iterates a string by
+ * code point, so this always agrees with the DB constraint.
+ */
+function codePointLength(value: string): number {
+  return Array.from(value).length;
+}
+
 export function validateDisplayNameFormat(raw: string): string | undefined {
   const trimmed = normalizeDisplayName(raw);
-  if (trimmed.length < 2) {
+  const length = codePointLength(trimmed);
+  if (length < 2) {
     return SIGNUP_MESSAGES.displayNameTooShort;
   }
-  if (trimmed.length > 10) {
+  if (length > 10) {
     return SIGNUP_MESSAGES.displayNameTooLong;
   }
   if (isReservedDisplayName(trimmed)) {

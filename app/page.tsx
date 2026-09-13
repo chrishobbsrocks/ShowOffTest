@@ -14,15 +14,9 @@ import { LinkButton } from "@/components/ui/LinkButton";
 export default function LandingPage() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center justify-center gap-8 bg-bg-base px-6 py-12">
-      <Image
-        src="/brand/show-off-logo.svg"
-        alt="Show Off"
-        width={375}
-        height={333}
-        priority
-        className="h-auto w-[196.51px]"
-      />
-
+      {/* screen-copy.md, Landing: "Tagline above logo" — QA1 gate-1 audit
+          round 1, sprint 2, should-fix item 2 caught this rendering below
+          the logo instead. */}
       <p
         className="flex items-center gap-2 text-center"
         style={{ font: "var(--type-body)", color: "var(--color-text-default)" }}
@@ -33,6 +27,15 @@ export default function LandingPage() {
         </span>
         <span>Climb arenas</span>
       </p>
+
+      <Image
+        src="/brand/show-off-logo.svg"
+        alt="Show Off"
+        width={375}
+        height={333}
+        priority
+        className="h-auto w-[196.51px]"
+      />
 
       <p
         className="text-center"

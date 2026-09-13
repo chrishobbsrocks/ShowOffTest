@@ -11,6 +11,7 @@ import {
   validateEmailFormat,
   validatePassword,
   type AvatarId,
+  type SignupFieldErrors,
 } from "@/lib/validation/signup";
 import { signupAction } from "./actions";
 import { initialSignupActionState } from "./state";
@@ -35,22 +36,62 @@ export function SignupForm() {
   const [password, setPassword] = useState("");
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  // A server-returned field error (e.g. "this display name is already
+  // taken") otherwise stuck showing forever: state.fieldErrors doesn't
+  // change again until the next submission, so without this a player who
+  // edits the field never sees the stale message clear (QA1 gate-1 audit
+  // round 1, sprint 2, should-fix item 4). Resets whenever a fresh
+  // response arrives, then tracks which fields the player has since
+  // changed, so those fall back to client-side validation instead of the
+  // now-possibly-stale server verdict.
+  //
+  // Reset during render rather than in an effect — comparing against the
+  // last-seen `state` and calling setState conditionally while rendering
+  // is React's own documented pattern for "adjusting state when a prop
+  // changes" (an effect here would run one render late and trip the
+  // set-state-in-effect lint rule).
+  const [editedSinceResponse, setEditedSinceResponse] = useState<Record<string, boolean>>({});
+  const [prevState, setPrevState] = useState(state);
+  if (prevState !== state) {
+    setPrevState(state);
+    setEditedSinceResponse({});
+  }
+
+  function resolveFieldError(
+    field: keyof SignupFieldErrors,
+    clientError: string | undefined,
+  ): string | undefined {
+    if (editedSinceResponse[field]) return clientError;
+    return state.fieldErrors[field] ?? clientError;
+  }
+
   const clientErrors = {
     displayName: touched.displayName ? validateDisplayNameFormat(displayName) : undefined,
     email: touched.email ? validateEmailFormat(email) : undefined,
     password: touched.password ? validatePassword(password) : undefined,
   };
 
-  const displayNameError = state.fieldErrors.displayName ?? clientErrors.displayName;
-  const emailError = state.fieldErrors.email ?? clientErrors.email;
-  const passwordError = state.fieldErrors.password ?? clientErrors.password;
-  const avatarError = state.fieldErrors.avatar;
+  const displayNameError = resolveFieldError("displayName", clientErrors.displayName);
+  const emailError = resolveFieldError("email", clientErrors.email);
+  const passwordError = resolveFieldError("password", clientErrors.password);
+  const avatarError = resolveFieldError("avatar", undefined);
+
+  function markEdited(field: keyof SignupFieldErrors) {
+    setEditedSinceResponse((e) => (e[field] ? e : { ...e, [field]: true }));
+  }
 
   return (
     <form action={formAction} className="flex w-full flex-col items-center gap-4">
       <input type="hidden" name="avatar" value={avatar ?? ""} />
 
-      <AvatarPicker value={avatar} onChange={setAvatar} error={avatarError} />
+      <AvatarPicker
+        value={avatar}
+        onChange={(id) => {
+          markEdited("avatar");
+          setAvatar(id);
+        }}
+        error={avatarError}
+      />
 
       <TextInput
         label="Display name"
@@ -58,7 +99,10 @@ export function SignupForm() {
         placeholder="Display name [2-10 characters]"
         autoComplete="nickname"
         value={displayName}
-        onChange={(event) => setDisplayName(event.target.value)}
+        onChange={(event) => {
+          markEdited("displayName");
+          setDisplayName(event.target.value);
+        }}
         onBlur={() => setTouched((t) => ({ ...t, displayName: true }))}
         error={displayNameError}
       />
@@ -70,7 +114,10 @@ export function SignupForm() {
         placeholder="Email"
         autoComplete="email"
         value={email}
-        onChange={(event) => setEmail(event.target.value)}
+        onChange={(event) => {
+          markEdited("email");
+          setEmail(event.target.value);
+        }}
         onBlur={() => setTouched((t) => ({ ...t, email: true }))}
         error={emailError}
       />
@@ -81,7 +128,10 @@ export function SignupForm() {
         placeholder="Password (min 8 characters)"
         autoComplete="new-password"
         value={password}
-        onChange={(value) => setPassword(value)}
+        onChange={(value) => {
+          markEdited("password");
+          setPassword(value);
+        }}
         onBlur={() => setTouched((t) => ({ ...t, password: true }))}
         error={passwordError}
       />

@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { ARENAS, getArenaForTrophies } from "@/lib/arenas";
+import { REPO_ROOT, scanSourceFiles } from "./support/scan-source-files";
 
 /**
  * Sprint 2, req 13 / acceptance criterion 13 (ARN-1, ARN-2, ARN-3): exactly
@@ -50,27 +51,16 @@ describe("getArenaForTrophies", () => {
 });
 
 describe("no threshold or arena name is repeated outside lib/arenas.ts", () => {
-  const ROOT = path.resolve(__dirname, "..");
-  const SCAN_DIRS = ["app", "lib"];
-  const SCANNED_EXTENSIONS = new Set([".ts", ".tsx", ".css"]);
+  const ROOT = REPO_ROOT;
   const EXEMPT_FILE = path.resolve(ROOT, "lib/arenas.ts");
 
-  function walk(dir: string, out: string[] = []): string[] {
-    for (const entry of readdirSync(dir)) {
-      const full = path.join(dir, entry);
-      const stats = statSync(full);
-      if (stats.isDirectory()) {
-        walk(full, out);
-      } else if (SCANNED_EXTENSIONS.has(path.extname(full))) {
-        out.push(full);
-      }
-    }
-    return out;
-  }
-
-  const files = walk(path.resolve(ROOT, SCAN_DIRS[0])).concat(
-    walk(path.resolve(ROOT, SCAN_DIRS[1])),
-  );
+  // Walks every application source directory (see
+  // tests/support/scan-source-files.ts), not a fixed app/lib allow-list —
+  // sprint 2's QA1 audit caught this same allow-list gap in the sibling
+  // no-literal-colors check, and it applies here identically: a threshold
+  // or arena name placed in components/ or a root-level file would have
+  // passed unnoticed under the old app+lib-only scan.
+  const files = scanSourceFiles([".ts", ".tsx", ".css"]);
   const otherFiles = files.filter((f) => f !== EXEMPT_FILE);
   // Route handlers legitimately use HTTP status code literals (200, and
   // others that could collide with a threshold, e.g. a future 1200ms

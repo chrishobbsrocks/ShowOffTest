@@ -1,39 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import path from "node:path";
+import { REPO_ROOT, scanSourceFiles } from "./support/scan-source-files";
 
 /**
- * Sprint 1, req 3 (P6): no hex, rgb()/rgba() or hsl()/hsla() colour literal
- * may appear in application source outside the single token stylesheet
- * (app/tokens.css). Walks the actual app/ and lib/ source trees — not a
- * fixed file list — so a new file with a literal colour trips this the
- * same way an edit to an existing one would.
+ * Sprint 1, req 3 (P6); sprint 2, req 16 / AC17: no hex, rgb()/rgba() or
+ * hsl()/hsla() colour literal may appear in application source outside the
+ * single token stylesheet (app/tokens.css). Walks every application source
+ * directory (see tests/support/scan-source-files.ts) rather than a fixed
+ * app/lib allow-list, so a new directory (components/, a root-level file
+ * like proxy.ts) is covered the moment it exists, not only once someone
+ * remembers to add it here.
  */
 
-const ROOT = path.resolve(__dirname, "..");
-const SCAN_DIRS = ["app", "lib"];
-const SCANNED_EXTENSIONS = new Set([".ts", ".tsx", ".css"]);
+const ROOT = REPO_ROOT;
 const EXEMPT_FILES = new Set([path.resolve(ROOT, "app/tokens.css")]);
 
 const COLOUR_LITERAL_RE = /#[0-9a-fA-F]{3,8}\b|\bhsla?\(|\brgba?\(/g;
 
-function walk(dir: string, out: string[] = []): string[] {
-  for (const entry of readdirSync(dir)) {
-    const full = path.join(dir, entry);
-    const stats = statSync(full);
-    if (stats.isDirectory()) {
-      walk(full, out);
-    } else if (SCANNED_EXTENSIONS.has(path.extname(full))) {
-      out.push(full);
-    }
-  }
-  return out;
-}
-
-const files = SCAN_DIRS.flatMap((dir) => walk(path.join(ROOT, dir)));
+const files = scanSourceFiles([".ts", ".tsx", ".css"]);
 
 describe("no literal colours outside the token stylesheet", () => {
-  it("scanned at least one file in app/ and lib/", () => {
+  it("scanned at least one file", () => {
     // A guard against this suite passing vacuously because the scan found
     // nothing (e.g. a path typo above).
     expect(files.length).toBeGreaterThan(0);

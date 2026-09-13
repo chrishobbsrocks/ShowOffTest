@@ -37,6 +37,29 @@ describe("validateDisplayNameFormat: length", () => {
   });
 });
 
+describe("validateDisplayNameFormat: counts Unicode code points, not UTF-16 units", () => {
+  // 🎮 is one code point but two UTF-16 units (a surrogate pair). The
+  // database's char_length() constraint counts code points, so this
+  // module must agree or a name can pass here and fail the insert (QA1
+  // gate-1 audit round 1, sprint 2, should-fix item 3).
+  it("6 emoji is exactly 6 code points, and valid, even though .length reads 12", () => {
+    const sixEmoji = "🎮".repeat(6);
+    expect(sixEmoji).toHaveLength(12);
+    expect(validateDisplayNameFormat(sixEmoji)).toBeUndefined();
+  });
+
+  it("2 emoji is exactly 2 code points, and the valid minimum, even though .length reads 4", () => {
+    const twoEmoji = "🎮".repeat(2);
+    expect(twoEmoji).toHaveLength(4);
+    expect(validateDisplayNameFormat(twoEmoji)).toBeUndefined();
+  });
+
+  it("11 emoji exceeds the 10-code-point limit", () => {
+    const elevenEmoji = "🎮".repeat(11);
+    expect(validateDisplayNameFormat(elevenEmoji)).toBe(SIGNUP_MESSAGES.displayNameTooLong);
+  });
+});
+
 describe("validateDisplayNameFormat: whitespace", () => {
   it("trims surrounding whitespace before validating length", () => {
     expect(validateDisplayNameFormat("  Al  ")).toBeUndefined();

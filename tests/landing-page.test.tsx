@@ -32,4 +32,16 @@ describe("LandingPage", () => {
 
     expect(document.body.textContent).not.toMatch(/Terms|Privacy|v1\.0/);
   });
+
+  it("renders the tagline above the logo (screen-copy.md: 'Tagline above logo'; QA1 round 1, should-fix item 2)", async () => {
+    const { default: LandingPage } = await import("@/app/page");
+    render(<LandingPage />);
+
+    const tagline = screen.getByText("Earn trophies");
+    const logo = screen.getByAltText("Show Off");
+
+    // DOCUMENT_POSITION_FOLLOWING means `logo` comes after `tagline` in
+    // document order — i.e. the tagline is above the logo.
+    expect(tagline.compareDocumentPosition(logo) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
 });
