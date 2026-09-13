@@ -152,7 +152,7 @@ Recorded 2026-09-12 unless stated.
   confirm the production auth settings endpoint, not only the dashboard toggle, before
   any sprint's live test that creates accounts.
 
-- **D-60 The splash logo is sized to the Figma Splash frame** (sprint 1 LiveQA round 3,
+- **D-60 (target superseded by D-63) The splash logo is sized to the Figma Splash frame** (sprint 1 LiveQA round 3,
   finding 1; recorded 2026-09-13). In frame `Splash` (375 × 667), the logo layer
   `Group 91` is 173.45 × 125.74 px, centred. Production rendered it about 34–37% larger.
   **Decision:** Dev Team fixes it. At a 375 × 667 viewport the logo's lettering bounds
@@ -178,6 +178,20 @@ Recorded 2026-09-12 unless stated.
   sprint 2 carries the change (sprint 2 requirement 16). The same sprint also extends
   the no-literal-colour check to every application source directory, not only `app/`
   and `lib/` (QA1 note (b)).
+
+- **D-63 The splash logo's size target, replacing D-60's** (sprint 1 LiveQA round 4;
+  recorded 2026-09-13). Round 4 failed AC7 for two reasons. First, the logo was built
+  as `w-[52.4%] max-w-60`, which scales with the viewport, where D-60 requires one fixed
+  size. Second, D-60's target could not be met as written: the SVG's lettering has an
+  aspect ratio of 1.342 and Figma's `Group 91` box 1.379, so width and height cannot
+  both land within 2 px at a single scale. **Decision:** at every viewport width, the
+  logo's lettering box is **173.45 px wide, within 2 px**, set as a fixed pixel size
+  with no percentage, `max-width` or viewport-relative sizing; its height follows the
+  SVG's own aspect ratio (about 129 px) and is not separately constrained. The
+  lettering box is centred horizontally within 2 px. Vertically it may sit up to 5 px
+  from centre, because the asset's drop-shadow margin sits below the letters. D-60's
+  process stands: Dev Team commits the fix, Pipeman reships, and LiveQA runs round 5,
+  checking AC7 at 320 px, 375 px and desktop. The sprint file is not amended.
 
 ## Leaderboards and onboarding
 
