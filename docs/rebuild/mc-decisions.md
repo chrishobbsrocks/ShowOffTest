@@ -140,6 +140,18 @@ Recorded 2026-09-12 unless stated.
   `NEXT_PUBLIC_SUPABASE_URL` is the bare `https://<project-ref>.supabase.co`, with no
   path.
 
+- **D-59 Sprint 1 LiveQA round 2's AC13 failure was an operator configuration error,
+  not a code defect** (recorded 2026-09-13). Production Supabase had "Confirm email"
+  on: the public auth settings endpoint reported `"mailer_autoconfirm": false`, so D-03
+  and ACC-6 did not hold on production. The operator turned "Confirm email" off in the
+  Supabase dashboard. No code change was made or needed, and no account was created to
+  discover it. **Decision:** no reship. The shipped commit, `9924cb6`, is unchanged, and
+  the sprint is still in `liveqa_live` with that commit recorded as last shipped, so
+  LiveQA's round 3 retests it directly (`--deployed-commit 9924cb6`) and must itself
+  observe `"mailer_autoconfirm": true` on production. **Lesson for later sprints:**
+  confirm the production auth settings endpoint, not only the dashboard toggle, before
+  any sprint's live test that creates accounts.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel
