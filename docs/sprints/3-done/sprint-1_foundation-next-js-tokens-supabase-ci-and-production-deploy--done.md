@@ -2,7 +2,7 @@
 id: 1
 title: "Foundation: Next.js, tokens, Supabase, CI and production deploy"
 epic: "Show Off Rebuild"
-status: in_progress
+status: done
 created: 2026-09-13T04:44:17+00:00
 ---
 
