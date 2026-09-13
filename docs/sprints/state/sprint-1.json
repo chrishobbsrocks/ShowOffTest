@@ -5,7 +5,7 @@
   "qa1_audit_result": "PASS",
   "qa1_audit_file_hash": "1494d70aad3a7df5e67c41a246914fab538ea0acd9bd93e6c5dc5f5d3f2ae62d",
   "qa1_audited_tree_hash": "91e2b6e146a39c6d4e898ec91fe23de6d9d5d1a51f1edff4e42f6cc72ba07913",
-  "last_shipped_commit": "539c36dd6e49db7e9f60f0a29cf5f854c48a7f9b",
+  "last_shipped_commit": "1bfccae53b104d3edf3751e65f694c67dabd97cd",
   "groundtruth_result": "FAIL",
   "audit_rounds": 2,
   "live_test_rounds": 4,
@@ -83,11 +83,17 @@
       "actor": "qa1",
       "event": "live_loop_audit",
       "detail": "PASS: QA1 live-loop audit, sprint 1 (phase liveqa_live). Verdict PASS for commit 1bfccae. 539c36d is superseded.\nScope: the code changed since the round-2 PASS (f3b1505): 539c36d (live, never audited) and 1bfccae (the D-63 fix, committed, not pushed). The only application files touched in f3b1505..1bfccae are app/page.tsx and tests/splash-page.test.tsx. Everything else in that range is docs, the decisions file and state bookkeeping. The working tree is clean and HEAD is 1bfccae.\nSprint file re-read fresh. Its last change was 15ca316 (sprint start), so it has not changed since the round-2 PASS. Req 7 and AC7 are as audited before. D-60 and D-63 read from docs/rebuild/mc-decisions.md at HEAD.\n\n539c36d, superseded: class h-auto w-[52.4%] max-w-60 is percentage-based with a max-width cap. That breaks D-60's fixed-size rule. LiveQA round 4 already showed the defect with measurements at 320, 375 and 1280. No new finding here: 1bfccae replaces the class completely, and no percentage or max-w sizing is left in app/.\n\n1bfccae against D-63:\n- Fixed pixel size, no percentage, max-width or viewport sizing: MET. The class is exactly h-auto w-[196.51px]. The production build (next build) emits .w-[196.51px]{width:196.51px}, and the prerendered HTML for / has img class h-auto w-[196.51px] with width 375 and height 333 attributes and an inline style of color:transparent only. The only max-width in play is Tailwind preflight's img max-width:100%. That is the reset, not a sizing utility, and it can only bind in a container narrower than 196.51px, which never happens at 320px or wider.\n- Lettering width 173.45px within 2px: MET, checked independently. I rendered public/brand/show-off-logo.svg with sharp at 4x density and took the ink bounds. Alpha 255: SVG units x 23.75-354.5, y 35.25-281.75, so 173.32 x 129.17 at a 196.51px box. Alpha at least 128: 173.58 x 129.30. LiveQA's round-4 getBBox geometry (331.17 wide) gives 173.54. All results are within 0.2px of target.\n- Height follows the aspect ratio: MET (h-auto; about 129.2px).\n- Horizontal centring within 2px: MET. The flex container centres the box, and the asset's own asymmetry puts the ink centre 0.85px right of box centre.\n- Vertical centring within 5px: MET, with little room to spare. The ink centre sits 4.19 to 4.26px above box centre. min-h-screen with items-center puts box centre at viewport centre. LiveQA round 4 measured this exact 196.5px box at 375 and got 4.24px, which agrees. Only about 0.75px of D-63's allowance is left. LiveQA should measure it precisely rather than eyeball it.\n- Same size at every width: follows from the fixed px width, since nothing else in page.tsx depends on the viewport.\n\nChecks run: vitest tests/splash-page.test.tsx 1/1 pass; tsc --noEmit clean; eslint on both files clean; next build succeeds (/ static).\n\nNon-blocking notes:\n(a) The test can only pin the class string, because jsdom has no layout. It does catch a return to percentage or max-w sizing through a regex guard, which is a sensible use of what jsdom offers. The geometry itself is LiveQA's to confirm.\n(b) The page.tsx comment says Round 4 shipped w-[52.4%] max-w-60. It was round 3's fix, which failed in round 4. Wording only.\n(c) Process: 539c36d reached production without a static audit. This record closes that gap after the fact. Do not reship 1bfccae before this record exists; it now does.\n\nNext steps: Pipeman reships 1bfccae. LiveQA round 5 checks AC7 at 320px, 375px and desktop against D-63, including the vertical offset. AC9's dashboard screenshot is still outstanding and is operator evidence, not a code matter. | commit=1bfccae53b104d3edf3751e65f694c67dabd97cd"
+    },
+    {
+      "ts": "2026-09-13T17:07:25+00:00",
+      "actor": "pipeman",
+      "event": "reshipped",
+      "detail": "commit=1bfccae | ci=undeterminable: could not run gh to query CI runs for 1bfccae53b104d3edf3751e65f694c67dabd97cd ([Errno 2] No such file or directory: 'gh') \u2014 gh may not be installed, or the query timed out."
     }
   ],
   "last_claim": {
-    "claude_session_id": "f6e6004c-afc4-5372-960c-5c848459d956",
-    "claude_agent": "qa1",
-    "ts": "2026-09-13T17:03:11+00:00"
+    "claude_session_id": "64fdf94a-4e1c-468d-bafc-32480aa388f3",
+    "claude_agent": "pipeman",
+    "ts": "2026-09-13T17:07:25+00:00"
   }
 }
