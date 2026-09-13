@@ -103,6 +103,19 @@ Recorded 2026-09-12 unless stated.
   Team 2 in its own worktree (`/sprint-worktree <N>`), only where Master Controller has
   checked the two sprints' Dependencies for overlap.
 
+- **D-53 Development and automated database tests use a local Supabase** (Supabase
+  CLI with Docker), with migrations applied locally before they are pushed. CI runs the
+  same local stack. No production key is used for development or testing.
+- **D-54 LiveQA may view the Supabase dashboard, Vercel and GitHub Actions read-only,**
+  in the operator's logged-in Chrome, to verify live-test criteria. It never changes a
+  setting, runs SQL that writes, or copies a secret.
+- **D-55 A push to `main` that auto-deploys to Vercel is not a release publish** for
+  this project. Pipeman pushes once QA1 has passed, without asking the operator
+  (operator decision, 2026-09-12). Closing a sprint still requires the operator's
+  real-time word, unchanged.
+- **D-56 The operator sets production environment values in Vercel** from the variable
+  names Dev Team 1 lists in sprint 1's `.env.example`, before Pipeman's first push.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel

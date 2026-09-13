@@ -511,6 +511,21 @@ engagement):
 **Decisions of record** live in `docs/rebuild/mc-decisions.md`. The product
 requirements are `docs/rebuild/show-off-rebuild-prd.md`. Sprint files cite both.
 
+**Operator decisions that change how roles work here** (2026-09-12; details in
+`docs/rebuild/mc-decisions.md`):
+
+- **Deploys (D-55).** Pushing to `main` auto-deploys to Vercel production. For this
+  project that deploy is not a "release publish" under the publish-authorization rule
+  near the top of this file: Pipeman pushes once QA1 has passed, without asking the
+  operator. The sprint-close rule is unchanged — `/sprint-complete` still needs the
+  operator's own real-time word.
+- **Local database (D-53).** Development and every automated database test run against a
+  local Supabase (Supabase CLI plus Docker), never the production project. No role other
+  than the operator holds a production key.
+- **Dashboards (D-54).** LiveQA may open the Supabase dashboard, Vercel and GitHub Actions
+  in the operator's logged-in Chrome, read-only, to verify live-test criteria. It never
+  changes a setting, runs SQL that writes, or copies a secret.
+
 **No email is sent or tested, by any role, in any environment** (operator
 decision, 2026-09-12, after Supabase warned the account about spam). Nothing
 in development, CI, or LiveQA's live tests may cause Supabase, or any other
