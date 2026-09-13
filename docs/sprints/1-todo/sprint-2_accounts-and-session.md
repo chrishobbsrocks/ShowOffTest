@@ -37,6 +37,7 @@ Sources of record: PRD 6.1 (ACC), 6.8 (ARN-1 to ARN-3), 6.11 (SEC), section 7 (N
 13. **Arenas defined once (ARN-1, ARN-2, ARN-3).** A single arena definition holds, for each of the six tiers: tier number, name, label (`Arena 1 · Warm Up` and so on), trophy threshold (0, 200, 600, 1200, 2000, 3000), badge path, tag path and background. The six backgrounds from PRD Appendix B are CSS custom properties in the token stylesheet, referenced from the arena definition by name (sprint 1's no-literal-colour check still passes). One function returns a player's arena from a trophy total; a total exactly on a threshold is in the higher arena. No threshold or label is written anywhere else; the new-user home's arena label reads from it.
 14. **Design values and accessibility (NFR-2, NFR-3, NFR-6).** Inputs are 44px tall with an 8px radius, buttons 52px with a 10px radius, a focused input's border uses `--color-accent`, and error text uses `type-error` in `--color-error-text`, placed below its field. Every control has an accessible name, keyboard focus is always visible, and each error message is programmatically associated with its field. Every screen in this sprint works from 320px wide.
 15. **No silent failures (NFR-7).** Any failed action shows its own message or the generic fallback and reports the error for diagnosis; no unhandled promise rejection reaches the console.
+16. **Health check ignores sessions (D-62).** `/api/health` calls `health_check()` through a client that carries no user session and never reads, forwards or refreshes auth cookies, so a signed-in caller gets exactly the same response as a signed-out one. `health_check()`'s grant stays anon-only. The no-literal-colour check from sprint 1 scans every application source directory (including any `components/` or similar added in this sprint), not only `app/` and `lib/`.
 
 ### Acceptance Criteria
 1. LiveQA: signed out, `/` shows 1.00 with exactly the Landing strings and no Terms line; both links work. Signed in, `/`, `/signup` and `/login` land on `/home`.
@@ -55,6 +56,7 @@ Sources of record: PRD 6.1 (ACC), 6.8 (ARN-1 to ARN-3), 6.11 (SEC), section 7 (N
 14. QA1: sizes, radii and colours come from tokens. LiveQA: keyboard-only sign-up and log-in are possible with visible focus throughout; a screen reader announces each error with its field; every screen in this sprint has no horizontal scroll at 320px.
 15. LiveQA: the console shows no errors or unhandled rejections through every flow tested above.
 16. LiveQA: every account created is listed in the live-test notes (D-51).
+17. QA1: the health route's client carries no session and the `health_check()` grant is unchanged; an automated test calls the route with a valid signed-in session cookie and asserts 200 `{"ok":true,"database":true}`. The no-literal-colour check's scanned paths cover every source directory. LiveQA: while signed in, `GET /api/health` returns 200 `{"ok":true,"database":true}`.
 
 ### Out of Scope
 - Password reset, set new password, profile editing and change password — sprint 4.

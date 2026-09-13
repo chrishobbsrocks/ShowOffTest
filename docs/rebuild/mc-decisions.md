@@ -152,6 +152,33 @@ Recorded 2026-09-12 unless stated.
   confirm the production auth settings endpoint, not only the dashboard toggle, before
   any sprint's live test that creates accounts.
 
+- **D-60 The splash logo is sized to the Figma Splash frame** (sprint 1 LiveQA round 3,
+  finding 1; recorded 2026-09-13). In frame `Splash` (375 × 667), the logo layer
+  `Group 91` is 173.45 × 125.74 px, centred. Production rendered it about 34–37% larger.
+  **Decision:** Dev Team fixes it. At a 375 × 667 viewport the logo's lettering bounds
+  (the `Group 91` box, not the SVG's own canvas, which includes drop-shadow margin)
+  measure 173.45 × 125.74 px, within 2 px, centred horizontally and vertically. The
+  logo is a fixed size, not scaled with the viewport, so it is the same size at 320 px
+  and on desktop. The fix is a code change in the live-test loop: Dev Team commits it,
+  Pipeman reships, and LiveQA runs round 4, re-checking AC7 at all three widths. The
+  sprint file is not amended: AC7 already requires visual comparison with the frame.
+- **D-61 In sprint 1's AC2, "exactly" means the same colour, not the same text**
+  (LiveQA round 3; recorded 2026-09-13). A computed token value passes when it
+  resolves to the same colour as `design-tokens.md`. Case, short hex (`#000` for
+  `#000000`) and equivalent `rgb()` forms produced by the build are fine. A different
+  colour fails. The same reading applies to every later criterion that compares
+  computed token values.
+- **D-62 `/api/health` gives the same answer to every caller, signed in or not**
+  (QA1 sprint 1 non-blocking note (a); recorded 2026-09-13). `health_check()` stays
+  executable by the anon role only; its grant is not widened. The route calls it with
+  a client that carries no user session: it does not read, forward or refresh the
+  caller's auth cookies. A signed-in caller therefore gets the same 200
+  `{"ok":true,"database":true}` as anyone else. Sprint 1's shipped route uses the
+  cookie-scoped server client, which is correct today because no sessions exist;
+  sprint 2 carries the change (sprint 2 requirement 16). The same sprint also extends
+  the no-literal-colour check to every application source directory, not only `app/`
+  and `lib/` (QA1 note (b)).
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel
