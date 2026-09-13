@@ -1,11 +1,11 @@
 {
   "id": 1,
   "title": "Foundation: Next.js, tokens, Supabase, CI and production deploy",
-  "phase": "dev_agreed_done",
+  "phase": "liveqa_live",
   "qa1_audit_result": "PASS",
   "qa1_audit_file_hash": "1494d70aad3a7df5e67c41a246914fab538ea0acd9bd93e6c5dc5f5d3f2ae62d",
   "qa1_audited_tree_hash": "91e2b6e146a39c6d4e898ec91fe23de6d9d5d1a51f1edff4e42f6cc72ba07913",
-  "last_shipped_commit": null,
+  "last_shipped_commit": "b6da2ed6d6db5cf8691d926b7f10cd47770dffc7",
   "groundtruth_result": null,
   "audit_rounds": 2,
   "live_test_rounds": 0,
@@ -35,11 +35,17 @@
       "actor": "dev-team",
       "event": "dev_agreed_done",
       "detail": ""
+    },
+    {
+      "ts": "2026-09-13T14:57:54+00:00",
+      "actor": "pipeman",
+      "event": "shipped",
+      "detail": "commit=b6da2ed6d6db5cf8691d926b7f10cd47770dffc7 | ci=undeterminable: could not run gh to query CI runs for b6da2ed6d6db5cf8691d926b7f10cd47770dffc7 ([Errno 2] No such file or directory: 'gh') \u2014 gh may not be installed, or the query timed out."
     }
   ],
   "last_claim": {
-    "claude_session_id": "ed764dad-e798-4f89-815a-4c73897020f9",
-    "claude_agent": "dev-team-1",
-    "ts": "2026-09-13T14:56:18+00:00"
+    "claude_session_id": "a86c0277-4e35-4fb4-ba4c-379cb8d0d7ba",
+    "claude_agent": "pipeman",
+    "ts": "2026-09-13T14:57:54+00:00"
   }
 }
