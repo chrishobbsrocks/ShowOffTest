@@ -2,12 +2,12 @@
   "id": 1,
   "title": "Foundation: Next.js, tokens, Supabase, CI and production deploy",
   "phase": "dev_build",
-  "qa1_audit_result": null,
+  "qa1_audit_result": "CONDITIONAL",
   "qa1_audit_file_hash": null,
   "qa1_audited_tree_hash": null,
   "last_shipped_commit": null,
   "groundtruth_result": null,
-  "audit_rounds": 0,
+  "audit_rounds": 1,
   "live_test_rounds": 0,
   "started": "2026-09-13T14:12:05+00:00",
   "completed": null,
@@ -17,11 +17,17 @@
       "actor": "system",
       "event": "sprint_started",
       "detail": ""
+    },
+    {
+      "ts": "2026-09-13T14:47:02+00:00",
+      "actor": "qa1",
+      "event": "audit",
+      "detail": "CONDITIONAL: QA1 AUDIT, SPRINT 1, commit 9427918. VERDICT: CONDITIONAL (one demonstrated defect, one required fix, rest met).\n\nSprint file re-read fresh before verdict; unchanged since start (clean tree). No between-versions criterion in this sprint.\n\nREQUIRED FIX 1 (demonstrated) - Req 2 \"Every design token reaches the browser\" is NOT met. app/tokens.css uses @theme inline. Tailwind 4 tree-shakes unused theme variables out of the emitted CSS. Ran the real @tailwindcss/postcss plugin (with source scanning, same as next build) over app/globals.css at this commit: 12 of 24 token custom properties are absent from the output - all 7 shape/padding/shadow/border tokens (radius-input, radius-button, padding-input-x, padding-input-y, shadow-xs, shadow-sm, border-width) and 5 of 7 type tokens (type-button, type-link, type-caption, type-legal, type-error). The 10 colours only survive by accident: the literal names appear in docs/design/design-tokens.md, which the scanner happens to read (git grep shows that file and tokens.css are the only hits). Without that doc text, an in-memory compile emitted only bg-base and text-default. The drift test reads the source stylesheet, not built CSS, so it cannot catch this. Verified fix in memory: changing the block to @theme static inline emits all 24. Dev Team: apply that (or equivalent) and add a test that asserts every token is present in compiled CSS, not just in tokens.css.\n\nREQUIRED FIX 2 - Req 8: \"the secret key is readable only by server code: its module fails to import into client code\". process.env.SUPABASE_SECRET_KEY is read in lib/env.ts, which has no server-only guard and is imported by lib/supabase/browser.ts. Only admin.ts is guarded. No leak today (nothing client-side imports browser.ts yet, and Next never inlines non-public values), but sprint 2 will import browser.ts from client code and the variable name can land in a client bundle, which is exactly what LiveQA AC8 searches for. Move getSupabaseSecretKey into a server-only module.\n\nMET: AC1 Next 16.3.5, React 19.3.0, TS strict, engines 24.x, eslint/tsconfig/vitest exclude framework dirs, no diff under scripts/.claude/templates/docs/sprints. AC2 values match design-tokens.md line by line incl type-error 400 11px/100%; bg-bg-base used on Splash (see fix 1 for emission). AC3 no-literal-colors test reads correctly and runs in CI via npm test. AC4 drift test parses the md, guards against vacuous pass. AC6 docs/public gone, 34 files at same paths. AC8 admin client imports server-only, no NEXT_PUBLIC_ prefix, .env.example lists the 4 vars empty, git grep finds no sb_secret/sb_publishable/JWT keys. AC9 exactly one migration, revoke from public and from anon/authenticated/service_role, grant to anon only; CLAUDE.md procedure present. AC10 route test covers error, unexpected value and throw branches with exact body. AC11 ci.yml on push + pull_request, lint/typecheck/test/build, supabase start before tests. AC14 ran npm run db:start then npm run db:reset locally: migration applied from scratch; anon rpc health_check returned true HTTP 200, service_role got 42501 HTTP 403. Stack stopped afterward. npm test 46 passed 1 skipped (db test skips without env; runs in CI), lint and typecheck clean.\n\nNON-BLOCKING: (a) health_check is anon-only by spec, but the route uses the cookie-scoped server client; once sprint 2 adds sessions, a signed-in caller becomes authenticated and /api/health will 503 for them - MC should decide before sprint 2. (b) no-literal-colors scans only app/ and lib/; a future components/ dir would be unscanned. (c) CI uses supabase/setup-cli version latest while package.json pins supabase 2.117.0 - pin CI to match. (d) the local db test silently skips without env; acceptable since CI sets it."
     }
   ],
   "last_claim": {
-    "claude_session_id": "d0218737-6dfc-4e23-9192-a41937ee8dcc",
-    "claude_agent": "dev-team-1",
-    "ts": "2026-09-13T14:12:05+00:00"
+    "claude_session_id": "72f94638-156d-4725-8176-e71d9efdd847",
+    "claude_agent": "qa1",
+    "ts": "2026-09-13T14:47:02+00:00"
   }
 }
