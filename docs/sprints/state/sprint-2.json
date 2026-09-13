@@ -1,0 +1,27 @@
+{
+  "id": 2,
+  "title": "Accounts and session",
+  "phase": "dev_build",
+  "qa1_audit_result": null,
+  "qa1_audit_file_hash": null,
+  "qa1_audited_tree_hash": null,
+  "last_shipped_commit": null,
+  "groundtruth_result": null,
+  "audit_rounds": 0,
+  "live_test_rounds": 0,
+  "started": "2026-09-13T18:00:45+00:00",
+  "completed": null,
+  "history": [
+    {
+      "ts": "2026-09-13T18:00:45+00:00",
+      "actor": "system",
+      "event": "sprint_started",
+      "detail": ""
+    }
+  ],
+  "last_claim": {
+    "claude_session_id": "9ff6eeb5-dde9-4120-a24d-0084f8d353c7",
+    "claude_agent": "dev-team-1",
+    "ts": "2026-09-13T18:00:45+00:00"
+  }
+}

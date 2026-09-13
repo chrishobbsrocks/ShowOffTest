@@ -10,8 +10,8 @@
     "2": {
       "title": "Accounts and session",
       "epic": "Show Off Rebuild",
-      "status": "todo",
-      "file": "docs/sprints/1-todo/sprint-2_accounts-and-session.md"
+      "status": "in_progress",
+      "file": "docs/sprints/2-in-progress/sprint-2_accounts-and-session.md"
     },
     "3": {
       "title": "Question bank",

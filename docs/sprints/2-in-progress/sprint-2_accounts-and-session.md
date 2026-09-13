@@ -2,7 +2,7 @@
 id: 2
 title: "Accounts and session"
 epic: "Show Off Rebuild"
-status: todo
+status: in_progress
 created: 2026-09-13T05:05:41+00:00
 ---
 
