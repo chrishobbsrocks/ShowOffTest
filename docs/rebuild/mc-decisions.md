@@ -79,6 +79,18 @@ Recorded 2026-09-12 unless stated.
 - **D-37 The arena-unlocked modal (4.01–4.05) has no dismiss control in the design.**
   A GAP `Continue` button is added, recorded before the arenas sprint.
 
+## Delivery
+
+- **D-50 Migrations reach production through Supabase's GitHub integration** on push
+  to `main`. Supabase Branching stays off (one production database, PRD section 4).
+  Migrations are forward-only once applied.
+- **D-51 Test data cleanup.** LiveQA records every account and row it creates in each
+  sprint's live-test notes. The operator runs the final cleanup at the end of the
+  rebuild (PRD section 9).
+- **D-52 Two sprints may run in parallel,** Dev Team 1 in the main checkout and Dev
+  Team 2 in its own worktree (`/sprint-worktree <N>`), only where Master Controller has
+  checked the two sprints' Dependencies for overlap.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel
