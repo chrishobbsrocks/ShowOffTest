@@ -1,7 +1,7 @@
 {
   "id": 2,
   "title": "Accounts and session",
-  "phase": "qa1_audit",
+  "phase": "dev_agreed_done",
   "qa1_audit_result": "PASS",
   "qa1_audit_file_hash": "3ab8b86366330dce522b98dd92bae7b361bf9bf59a434e4d94c066050b1461fe",
   "qa1_audited_tree_hash": "e827808d540b00a7839ebf01e9f72657eee79dfb4d255eb5890b3a4caa60c84d",
@@ -29,11 +29,17 @@
       "actor": "qa1",
       "event": "audit",
       "detail": "PASS: QA1 gate-1 audit, sprint 2, round 2 (re-audit). VERDICT: PASS.\nAudited: HEAD db2b0c7 (fix commit on top of 3aac97d). Working tree clean. Sprint file re-read fresh: no diff since 3c00022, so requirements are unchanged from round 1; re-audit scoped to the fix commit (11 files). No criterion of the between-two-versions kind.\nChecks run: npm test 285 pass / 8 skipped (DB tests; db2b0c7 touches no migration, create-account.ts or DB code, so round 1 live DB results stand); npm run typecheck clean; npm run lint clean.\n\nROUND 1 REQUIRED FIX, now MET:\n1. Req 16 / AC17: tests/support/scan-source-files.ts walks the repo root with an exclusion list (node_modules, dot-dirs, tests, public, docs, supabase, scripts, templates) instead of an app+lib allow-list. Demonstrated with npx vitest run tests/no-literal-colors.test.ts tests/arenas.test.ts --reporter verbose: all 7 components/ files and proxy.ts now appear as scanned files in BOTH the colour-literal check and the arena threshold/name checks, plus next.config.ts and vitest.config.ts. A new source directory is covered automatically.\n\nROUND 1 SHOULD-FIX ITEMS:\n2. Landing: tagline now renders above the logo, with a document-order test. The Host caption string is present verbatim. Whether frame 1.00 also carries a host image is a visual check for LiveQA on AC1, not decidable from the copy doc.\n3. Display-name length now counts code points via Array.from, matching Postgres char_length. Tests cover 2, 6 and 11 emoji.\n4. SignupForm: server field errors clear once their field is edited, reset on each new response using the documented adjust-state-during-render pattern. Test added.\n5. signupAction: wrapped in try/catch with generic fallback and console.error. redirect() is correctly kept outside the try, so NEXT_REDIRECT is not swallowed. Five action tests cover success, sign-in failure to /login, field errors, createAccount throwing, and createClient throwing.\n6. Profile-load failure with no message: unchanged, accepted in round 1 as logged.\n\nNo new issues found. Everything verified met in round 1 stands: requirements 1-15 and 17 as recorded there, and 16 now fully met."
+    },
+    {
+      "ts": "2026-09-13T18:13:56+00:00",
+      "actor": "dev-team",
+      "event": "dev_agreed_done",
+      "detail": ""
     }
   ],
   "last_claim": {
-    "claude_session_id": "33baf7d5-0906-447a-8b54-fb689940c7b1",
-    "claude_agent": "qa1",
-    "ts": "2026-09-13T18:13:23+00:00"
+    "claude_session_id": "58063cca-2e32-4225-a22f-8652cf0fada0",
+    "claude_agent": "dev-team-1",
+    "ts": "2026-09-13T18:13:56+00:00"
   }
 }
