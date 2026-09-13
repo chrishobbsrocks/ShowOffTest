@@ -47,6 +47,7 @@ Sources of record: PRD 6.9 (LDB-1 to LDB-9), 6.11 (SEC-3); `docs/copy/screen-cop
 - Blocks: sprint 12 (deletion must remove leaderboard presence).
 - Blocked by: sprints 8 and 9 closed.
 - External: none. Runs in parallel with sprint 11.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout. Owns `/leaderboard` and its data access.

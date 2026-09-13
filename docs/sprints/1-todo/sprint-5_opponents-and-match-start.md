@@ -46,6 +46,7 @@ Sources of record: PRD 6.5 (RND-1, RND-8), 6.7 (GHO), 6.11, P1–P3; `docs/copy/
 - Blocks: sprint 6.
 - Blocked by: sprints 2 and 3 closed.
 - External: none. Runs in parallel with sprint 4.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout. Owns `/home`'s `Let’s play` behaviour, `/play`, matchmaking, ghost-run and round storage and the seed migration.

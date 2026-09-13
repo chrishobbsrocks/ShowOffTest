@@ -45,6 +45,7 @@ Per D-36, questions are test content: the review gate is enforced mechanically, 
 - Blocks: sprints 5 and 6.
 - Blocked by: sprint 1 closed.
 - External: none. Runs in parallel with sprint 2.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** not assigned (building sprint 2 in the main checkout).

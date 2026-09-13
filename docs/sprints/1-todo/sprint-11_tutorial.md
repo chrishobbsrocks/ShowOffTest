@@ -41,6 +41,7 @@ Sources of record: PRD 6.10 (ONB-3, ONB-4), 6.11 (SEC-1); `docs/copy/screen-copy
 - Blocks: nothing.
 - Blocked by: sprint 8 closed (the home branch it modifies).
 - External: none. Runs in parallel with sprint 10.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** not assigned (building sprint 10 in the main checkout, which owns `/leaderboard`).

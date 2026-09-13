@@ -43,6 +43,7 @@ Sources of record: PRD 6.8 (ARN), 6.9 (LDB-4, LDB-5, LDB-9), 6.10 (ONB-2, ONB-6)
 - Blocks: sprint 10 (best-rank records), sprint 11 (the new-user home it modifies).
 - Blocked by: sprint 7 closed.
 - External: none. Runs in parallel with sprint 9.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout. Owns `/home`, the promotion modal and the submission-transaction changes.

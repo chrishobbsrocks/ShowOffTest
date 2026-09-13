@@ -66,6 +66,7 @@ Sources of record: PRD 6.1 (ACC), 6.8 (ARN-1 to ARN-3), 6.11 (SEC), section 7 (N
 - Blocks: sprints 4, 5 and everything after.
 - Blocked by: sprint 1 closed.
 - External: none beyond sprint 1's Supabase and Vercel setup. Runs in parallel with sprint 3.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout.

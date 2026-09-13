@@ -58,7 +58,8 @@ This sprint ships no product features and no product copy. Its only visible scre
 ### Dependencies
 - Blocks: sprint 2 (accounts) and sprint 3 (question bank).
 - Blocked by: nothing. Inputs are committed (`e18021d`).
-- External: Supabase and Vercel projects exist (operator, done). Docker Desktop installed on the operator's Mac before the sprint starts. The operator supplies production environment variable values to Vercel from `.env.example`'s names before Pipeman's first push (D-56), and connects Supabase's GitHub integration to `chrishobbsrocks/ShowOffTest` using Dev Team's step-by-step, before Pipeman pushes this sprint.
+- External: all done by the operator on 2026-09-12 — Supabase and Vercel projects exist; Docker Desktop is installed; the four D-56 variables are set in Vercel (Production only); Supabase's GitHub integration is connected to `chrishobbsrocks/ShowOffTest`. Dev Team still writes the integration procedure into `CLAUDE.md` (requirement 9) and verifies its settings (deploy from `main`, Branching off) with the operator if LiveQA cannot see them.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint.

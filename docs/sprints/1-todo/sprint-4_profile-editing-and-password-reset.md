@@ -50,6 +50,7 @@ No email may be sent (D-03), so the reset email and the link in it are never exe
 - Blocks: sprint 9 (builds on the profile screen) and sprint 12 (adds to the edit menu).
 - Blocked by: sprint 2 closed.
 - External: the operator applies any Supabase Auth URL settings Dev Team identifies. Runs in parallel with sprint 5.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** not assigned (building sprint 5).

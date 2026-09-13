@@ -42,6 +42,7 @@ Sources of record: PRD 6.2 (PRO-1 to PRO-6); `docs/copy/screen-copy.md` section 
 - Blocks: nothing directly.
 - Blocked by: sprints 4 and 7 closed.
 - External: none. Runs in parallel with sprint 8.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** not assigned (building sprint 8 in the main checkout, which owns `/home` and the submission transaction).

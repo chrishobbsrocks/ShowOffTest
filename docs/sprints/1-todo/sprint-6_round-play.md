@@ -51,6 +51,7 @@ When all ten questions are graded, `See result` currently returns to home; sprin
 - Blocks: sprint 7.
 - Blocked by: sprint 5 closed.
 - External: none.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout.

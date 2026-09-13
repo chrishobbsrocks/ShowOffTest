@@ -50,6 +50,7 @@ Sources of record: PRD 6.3 (DEL-1 to DEL-5), 6.11 (SEC-1, SEC-4), P4, P5; `docs/
 - Blocks: the rebuild's definition of done (PRD section 9).
 - Blocked by: sprints 10 and 11 closed (every table the product uses exists).
 - External: none.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout.

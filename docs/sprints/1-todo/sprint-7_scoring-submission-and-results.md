@@ -56,6 +56,7 @@ Sources of record: PRD 6.5 (RND-11 to RND-14), 6.6 (SCO), 6.7 (GHO-1, GHO-6), 6.
 - Blocks: sprints 8, 9, 10 and 12.
 - Blocked by: sprint 6 closed.
 - External: none.
+- **Ready to build:** Requirements
 
 ### Team Assignments
 - **Dev Team 1:** the whole sprint, in the main checkout.
