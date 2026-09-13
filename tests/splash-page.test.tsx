@@ -24,10 +24,15 @@ describe("SplashPage", () => {
     // req 2 acceptance criterion: a Tailwind utility used by token name.
     expect(logo.closest("main")).toHaveClass("bg-bg-base");
 
-    // req 7 / AC7: LiveQA round 3 found the logo rendering about 34-37%
-    // larger than the Figma Splash frame's own logo group. Pin the sizing
-    // classes so a future change can't silently regress back to the
-    // oversized w-[70%] max-w-xs that produced that finding.
-    expect(logo).toHaveClass("w-[52.4%]", "max-w-60");
+    // req 7 / AC7, D-63: the logo's lettering box must be a fixed pixel
+    // size (173.45px ink width, derived from the asset — see app/page.tsx's
+    // own comment) with no percentage, max-width or viewport-relative
+    // sizing, so it renders identically at every viewport width. Pin the
+    // exact fixed-width class so a future change can't silently regress
+    // back to a viewport-relative class (round 3's w-[70%] max-w-xs, or
+    // round 4's still-percentage-based w-[52.4%] max-w-60) that LiveQA
+    // already found scales with the viewport and fails AC7.
+    expect(logo).toHaveClass("w-[196.51px]");
+    expect(logo.className).not.toMatch(/%|max-w-/);
   });
 });

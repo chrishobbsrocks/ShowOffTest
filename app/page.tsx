@@ -9,16 +9,26 @@ import Image from "next/image";
  * frame's own untokenised background literal (see
  * docs/design/design-tokens.md; P6).
  *
- * Logo size: LiveQA round 3 (AC7 Figma comparison) measured the rendered
- * logo about 34-37% larger than the Figma Splash frame's own logo group
- * (Group 91 = OFF + SHOW, 173.45x125.74 at the 375-wide frame) — the
- * previous `w-[70%] max-w-xs` rendered visible ink about 232px wide at a
- * 375px viewport. The source SVG's own viewBox is 375x333 with its visible
- * ink spanning roughly x:22-354 (331px, about 88.3% of the SVG's own
- * width), so matching the Figma group's 173.45px ink width means the
- * rendered image box itself needs to be about 196.5px wide at 375
- * (173.45 / 0.883), i.e. about 52.4% of the viewport rather than 70%, with
- * the desktop cap scaled down by the same ~0.748 factor (320px -> 240px).
+ * Logo size: D-63 (superseding D-60) sets the target as the logo's
+ * lettering box (the crisp ink, excluding the asset's own drop-shadow
+ * margin) measuring 173.45px wide, within 2px, as a **fixed pixel size**
+ * with no percentage, `max-width` or viewport-relative sizing — the same
+ * size at 320px, 375px and desktop. Round 4 shipped `w-[52.4%] max-w-60`,
+ * which still scaled with the viewport and failed AC7 for that reason.
+ *
+ * The fixed width below is derived from the asset itself, not eyeballed:
+ * rendering `public/brand/show-off-logo.svg` and measuring the fully-opaque
+ * (alpha = 255, i.e. excluding the feathered drop-shadow) pixel bounds
+ * gives an ink box of 331 x 246.7 in the SVG's own 375 x 333 viewBox units
+ * (aspect ratio 1.3417, matching D-63's stated 1.342). Ink width is
+ * therefore 331/375 = 88.267% of the rendered image's own width, so an
+ * image box of 173.45 / 0.88267 = 196.51px wide yields an ink box exactly
+ * 173.45px wide. `h-auto` preserves the SVG's intrinsic aspect ratio, so
+ * ink height comes out to about 129.3px, matching D-63's "about 129px" —
+ * not separately constrained, per the decision. Because the box is
+ * centred by the flex container, the ink's vertical centre sits about
+ * 4.2px above the box's (and so the viewport's) centre — the drop-shadow
+ * margin below the letters — within D-63's 5px allowance.
  */
 export default function SplashPage() {
   return (
@@ -29,7 +39,7 @@ export default function SplashPage() {
         width={375}
         height={333}
         priority
-        className="h-auto w-[52.4%] max-w-60"
+        className="h-auto w-[196.51px]"
       />
     </main>
   );
