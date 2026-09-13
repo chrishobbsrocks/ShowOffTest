@@ -556,8 +556,10 @@ actually off there before the live test. No account was created anywhere
 in this verification; the local check is a stack Dev Team can freely
 create/delete accounts against by design (D-53), and none were created.
 
-**Production URL:** _to be recorded here by Pipeman after the first deploy
-(sprint 1, req 12)._
+**Production URL:** https://show-off-test.vercel.app (sprint 1, req 12;
+recorded by Dev Team per LiveQA round 1's required-fix list — the
+duplicate Vercel project `show-off-test-n6bj` was deleted, per the
+operator, so this is the one production deployment).
 
 **Local development database (sprint 1, req 14; D-53).** Requires Docker
 Desktop running. The Supabase CLI is a dev dependency (`npm install` pulls
