@@ -1,10 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAnonClient } from "@/lib/supabase/anon";
 
 /**
  * Proves the database is reachable end to end, including that the baseline
  * migration (supabase/migrations) actually applied (sprint 1, req 9, 10).
- * Calls `health_check()` — granted to the `anon` role only — through the
- * session-scoped server client, so this route needs no elevated privilege.
+ * Calls `health_check()` — granted to the `anon` role only — through a
+ * client that carries no session at all (D-62; sprint 2 req 16), so a
+ * signed-in caller gets exactly the same response as anyone else: this
+ * route never reads, forwards or refreshes auth cookies, and
+ * `health_check()`'s own grant is unchanged (still anon-only).
  *
  * The response body is deliberately minimal on both paths: no error text,
  * keys, URLs or stack traces ever reach the client. Failures are still
@@ -14,7 +17,7 @@ import { createClient } from "@/lib/supabase/server";
  */
 export async function GET() {
   try {
-    const supabase = await createClient();
+    const supabase = createAnonClient();
     const { data, error } = await supabase.rpc("health_check");
 
     if (error || data !== true) {

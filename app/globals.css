@@ -6,3 +6,57 @@ body {
   color: var(--color-text-default);
   font: var(--type-body);
 }
+
+/*
+ * Sprint 2, req 14 (NFR-2, NFR-3, NFR-6): keyboard focus is always visible,
+ * everywhere, in the accent token. `:focus-visible` (not `:focus`) so a
+ * mouse click doesn't show the ring, only keyboard/AT navigation does.
+ */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/*
+ * The shared text/password input look (design-tokens.md, "Input"):
+ * 44px tall, 8px radius, token-driven colour and type in every state.
+ * Components: components/ui/TextInput.tsx, components/ui/PasswordInput.tsx.
+ */
+.input-field {
+  display: block;
+  height: 44px;
+  width: 100%;
+  max-width: 286px;
+  border-radius: var(--radius-input);
+  border: var(--border-width) solid var(--color-border-default);
+  background: var(--color-bg-surface);
+  color: var(--color-text-default);
+  padding: var(--padding-input-y) var(--padding-input-x);
+  box-shadow: var(--shadow-xs);
+  font: var(--type-input);
+}
+
+.input-field::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  color: var(--color-text-emphasis);
+}
+
+.input-field[aria-invalid="true"] {
+  border-color: var(--color-error);
+  color: var(--color-text-emphasis);
+}
+
+/* Avatar picker (design-tokens.md, "Avatar picker"): scrollbar hidden. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

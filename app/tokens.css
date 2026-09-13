@@ -76,3 +76,26 @@
   --type-legal: 400 10px var(--font-body);
   --type-error: 400 11px/100% var(--font-body);
 }
+
+/*
+ * Arena backgrounds (sprint 2, req 13; PRD Appendix B). These are not part
+ * of NFR-1's 17 named design tokens (tests/token-drift.test.ts and
+ * tests/tokens-compiled.test.ts check that fixed list only) — they are a
+ * separate set of six, one per arena tier, that lib/arenas.ts references by
+ * name (`var(--arena-N-background)`) so the single arena definition never
+ * needs a colour literal of its own (tests/no-literal-colors.test.ts). A
+ * plain `:root` block (not `@theme`) is used deliberately: these are never
+ * consumed as Tailwind utility classes, only via inline `style`, so there is
+ * no utility-class reference for Tailwind's scanner to see — `@theme`
+ * variables not seen that way are tree-shaken out of the build (the same
+ * failure mode `static` works around above), while a plain custom property
+ * is ordinary CSS and always survives the compile untouched.
+ */
+:root {
+  --arena-1-background: radial-gradient(circle, #27E3D4, #0D4836, #0D2B18);
+  --arena-2-background: radial-gradient(circle, #8C397A, #480072, #633497);
+  --arena-3-background: radial-gradient(circle, #9AD4FF, #0D3F52, #0F465D);
+  --arena-4-background: radial-gradient(circle, #FFD000, #503606, #68471B);
+  --arena-5-background: radial-gradient(circle, #F75152, #111312, #5F1717);
+  --arena-6-background: linear-gradient(135deg, #7337BE, #883795, #DB8147, #3C9DBB, #312E65);
+}
