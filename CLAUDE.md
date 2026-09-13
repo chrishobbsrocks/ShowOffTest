@@ -286,18 +286,10 @@ a shared config) even when their features don't conceptually overlap.
 
 Because of that, Dev Team 2 always works in its own git worktree, a
 separate working directory on its own branch, not the same checkout Dev
-Team 1 is using. This is the default, not an opt-in:
-
-```bash
-/sprint-worktree <N>
-```
-
-run once, before Dev Team 2 starts building. It creates (or reuses) a
-worktree at `../<repo>-devteam2-sprint-<N>` on branch `devteam2/sprint-<N>`
-and prints the path. Dev Team 2's session should `cd` there before touching
-any files, and stay there for the whole sprint. This is what actually
-prevents the uncommitted-work collisions that "check for overlap first"
-alone did not.
+Team 1 is using. This is the default, not an opt-in — run `/sprint-worktree
+<N>` once before Dev Team 2 starts building (see that command for the
+exact mechanics). This is what actually prevents the uncommitted-work
+collisions that "check for overlap first" alone did not.
 
 **The worktree's life does not end at close** (sprint 34). Sprint 32 was
 closed correctly from inside its own worktree — both gates verified, real
@@ -345,23 +337,13 @@ naming the return path explicitly:
 
 ## Quick reference
 
-```bash
-/sprint-new "Title" [--epic "Epic name"]                                                        # Master Controller
-/sprint-start <N>                                                                               # Dev Team 1/2
-/sprint-worktree <N>                                                                            # Dev Team 2 only, before building
-/sprint-status [<N>]                                                                            # any role, read-only
-/sprint-list                                                                                    # any role, read-only
-/sprint-qa1 <N> --verdict PASS|FAIL|CONDITIONAL --notes "..."                                   # QA1
-/sprint-dev-done <N>                                                                            # Dev Team 1/2
-/sprint-ship <N> --commit <hash>                                                                # Pipeman
-/sprint-reship <N> --commit <hash>                                                              # Pipeman
-/sprint-repoint <N> --commit <hash>                                                             # Pipeman
-/sprint-liveqa <N> --deployed-commit <sha> --verdict PASS|FAIL|CONDITIONAL --notes "..."        # LiveQA
-/sprint-complete <N> --user-said "..."                                                          # Dev Team 1/2
-/sprint-abort <N> --user-said "..." --reason "..."                                              # Dev Team 1/2
-/sprint-block <N> --reason "..."                                                                # any role
-/sprint-rename <N> --title "..."                                                                # Master Controller
-```
+See `.claude/commands/*.md` for the exact usage (arguments, flags) of each
+command below. Owning role per the lifecycle diagram and notes above:
+`/sprint-new` and `/sprint-rename` (Master Controller); `/sprint-start`,
+`/sprint-worktree`, `/sprint-dev-done`, `/sprint-complete`, `/sprint-abort`
+(Dev Team 1/2); `/sprint-qa1` (QA1); `/sprint-ship`, `/sprint-reship`,
+`/sprint-repoint` (Pipeman); `/sprint-liveqa` (LiveQA); `/sprint-status`,
+`/sprint-list`, `/sprint-block` (any role).
 
 `/sprint-abort` isn't attributed to a role anywhere else in this file (it's absent from the lifecycle diagram above); "Dev Team 1/2" here is inferred from the "Command ownership" note further up — lifecycle transition commands belong to whichever Dev Team owns the sprint, not Master Controller — not a direct quote like the other eleven labels are. Sprint 33 gave it a second required argument, `--user-said`, the same non-overridable shape as `/sprint-complete`'s own — abort is this lifecycle's most destructive action (it burns the sprint id and makes re-filing a human act) and used to require strictly less than closing a sprint does.
 
@@ -508,3 +490,22 @@ younger than some sprint still in flight could be; direct indexing for
 everything in the base schema.
 
 ---
+
+## Show Off rebuild standards
+
+**No email is sent or tested, by any role, in any environment** (operator
+decision, 2026-09-12, after Supabase warned the account about spam). Nothing
+in development, CI, or LiveQA's live tests may cause Supabase, or any other
+service, to send an email.
+
+- **Supabase "Confirm email" stays off** in the production project, so
+  creating an account never sends mail (PRD ACC-6).
+- **Test accounts use the reserved `example.com` domain only**
+  (`liveqa-01@example.com` and so on). Never use a real address, anyone's.
+- **Never submit the password-reset request form with a registered
+  address**, on production or anywhere else: that sends an email. Automated
+  tests mock the auth client for that path.
+- **No SMTP provider, email sandbox, or inbox service is configured** unless
+  the operator explicitly authorizes it later.
+- A sprint whose acceptance criteria appear to need an email sent is
+  blocked back to Master Controller (`/sprint-block`), never worked around.

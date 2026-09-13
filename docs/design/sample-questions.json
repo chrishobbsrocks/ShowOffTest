@@ -1,0 +1,85 @@
+{
+  "_note": "Sample question bank for Showoff. Ten questions, spread across arena tiers. Schema derived from the Game UI page: a setup line carrying the game's voice, the question, four options, the answer, and the fact shown after the reveal (the 💡 line seen on 6.03/6.04). Arena is the difficulty tier, on the assumption that A1 is easiest and A6 hardest — 'The guessing stops working here' appears on a later arena. Confirm that assumption before building on it.",
+  "questions": [
+    {
+      "id": "q001", "arena": 1,
+      "setup": "Everyone says Sydney. Everyone is wrong.",
+      "question": "What is the capital of Australia?",
+      "options": ["Canberra", "Sydney", "Melbourne", "Brisbane"],
+      "answerIndex": 0,
+      "fact": "Canberra exists because Sydney and Melbourne couldn't stop arguing. They built a whole city in the gap between them."
+    },
+    {
+      "id": "q002", "arena": 1,
+      "setup": "One is not enough, apparently.",
+      "question": "How many hearts does an octopus have?",
+      "options": ["Three", "One", "Two", "Eight"],
+      "answerIndex": 0,
+      "fact": "Two pump blood to the gills, one to the rest of the body. That third one stops beating when they swim, which is why they'd rather walk."
+    },
+    {
+      "id": "q003", "arena": 2,
+      "setup": "Closest to the sun. Not the hottest. Deal with it.",
+      "question": "Which planet has the hottest surface?",
+      "options": ["Venus", "Mercury", "Mars", "Jupiter"],
+      "answerIndex": 0,
+      "fact": "Venus sits at about 465°C — hot enough to melt lead — because its atmosphere traps heat that Mercury simply radiates away."
+    },
+    {
+      "id": "q004", "arena": 2,
+      "setup": "Look closer. Much closer.",
+      "question": "What colour is a polar bear's skin?",
+      "options": ["Black", "White", "Pink", "Grey"],
+      "answerIndex": 0,
+      "fact": "The fur isn't white either — it's translucent and hollow. The bear just scatters light very convincingly."
+    },
+    {
+      "id": "q005", "arena": 3,
+      "setup": "The name is doing a lot of work here.",
+      "question": "How long did the Hundred Years' War actually last?",
+      "options": ["116 years", "100 years", "88 years", "127 years"],
+      "answerIndex": 0,
+      "fact": "1337 to 1453. Nobody called it that at the time — the name was applied centuries later, by people who didn't count."
+    },
+    {
+      "id": "q006", "arena": 3,
+      "setup": "You're about to say strawberry.",
+      "question": "Which of these is botanically a berry?",
+      "options": ["Banana", "Strawberry", "Raspberry", "Cherry"],
+      "answerIndex": 0,
+      "fact": "A berry grows from a single ovary with seeds inside. Strawberries fail on every count — those aren't even seeds on the outside."
+    },
+    {
+      "id": "q007", "arena": 4,
+      "setup": "Sand is not a requirement.",
+      "question": "What is the largest desert on Earth?",
+      "options": ["Antarctica", "The Sahara", "The Arabian", "The Gobi"],
+      "answerIndex": 0,
+      "fact": "A desert is defined by how little falls out of the sky, not by temperature. Antarctica is about 14 million km² of it."
+    },
+    {
+      "id": "q008", "arena": 4,
+      "setup": "Russia has eleven. Russia is not the answer.",
+      "question": "Which country spans the most time zones?",
+      "options": ["France", "Russia", "The United States", "China"],
+      "answerIndex": 0,
+      "fact": "France reaches twelve, thanks to overseas territories scattered across every ocean. China spans five geographically and insists on using one."
+    },
+    {
+      "id": "q009", "arena": 5,
+      "setup": "Take a second with this one. You'll need it.",
+      "question": "Which came first — the fax machine or the American Civil War?",
+      "options": ["The fax machine", "The Civil War", "Same decade", "Neither, they overlapped"],
+      "answerIndex": 0,
+      "fact": "Alexander Bain patented it in 1843, eighteen years before Fort Sumter. The technology sat around waiting for a purpose for over a century."
+    },
+    {
+      "id": "q010", "arena": 6,
+      "setup": "The guessing stops working here.",
+      "question": "Cleopatra lived closer in time to which of these?",
+      "options": ["The Moon landing", "The Great Pyramid", "Exactly halfway", "The founding of Rome"],
+      "answerIndex": 0,
+      "fact": "The Great Pyramid was already 2,500 years old when she was born. The Moon landing was only 2,000 years after she died."
+    }
+  ]
+}
