@@ -1,0 +1,6 @@
+# Fully Completely (added by scripts/install.js)
+docs/sprints/.locks/
+*.fc-bak-*
+
+# OS
+.DS_Store
