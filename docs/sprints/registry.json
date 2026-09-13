@@ -4,8 +4,8 @@
     "1": {
       "title": "Foundation: Next.js, tokens, Supabase, CI and production deploy",
       "epic": "Show Off Rebuild",
-      "status": "todo",
-      "file": "docs/sprints/1-todo/sprint-1_foundation-next-js-tokens-supabase-ci-and-production-deploy.md"
+      "status": "in_progress",
+      "file": "docs/sprints/2-in-progress/sprint-1_foundation-next-js-tokens-supabase-ci-and-production-deploy.md"
     },
     "2": {
       "title": "Accounts and session",
