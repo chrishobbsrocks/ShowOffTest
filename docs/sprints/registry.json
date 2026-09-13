@@ -1,11 +1,77 @@
 {
-  "next_id": 2,
+  "next_id": 13,
   "sprints": {
     "1": {
       "title": "Foundation: Next.js, tokens, Supabase, CI and production deploy",
       "epic": "Show Off Rebuild",
       "status": "todo",
       "file": "docs/sprints/1-todo/sprint-1_foundation-next-js-tokens-supabase-ci-and-production-deploy.md"
+    },
+    "2": {
+      "title": "Accounts and session",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-2_accounts-and-session.md"
+    },
+    "3": {
+      "title": "Question bank",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-3_question-bank.md"
+    },
+    "4": {
+      "title": "Profile editing and password reset",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-4_profile-editing-and-password-reset.md"
+    },
+    "5": {
+      "title": "Opponents and match start",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-5_opponents-and-match-start.md"
+    },
+    "6": {
+      "title": "Round play",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-6_round-play.md"
+    },
+    "7": {
+      "title": "Scoring, submission and results",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-7_scoring-submission-and-results.md"
+    },
+    "8": {
+      "title": "Arenas, promotion and best rank",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-8_arenas-promotion-and-best-rank.md"
+    },
+    "9": {
+      "title": "Profile record",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-9_profile-record.md"
+    },
+    "10": {
+      "title": "Leaderboards",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-10_leaderboards.md"
+    },
+    "11": {
+      "title": "Tutorial",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-11_tutorial.md"
+    },
+    "12": {
+      "title": "Account deletion",
+      "epic": "Show Off Rebuild",
+      "status": "todo",
+      "file": "docs/sprints/1-todo/sprint-12_account-deletion.md"
     }
   }
 }
