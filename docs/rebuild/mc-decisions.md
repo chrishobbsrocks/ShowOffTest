@@ -119,6 +119,12 @@ Recorded 2026-09-12 unless stated.
   `NEXT_PUBLIC_SITE_URL` (the production URL). Preview deployments get none of them, so
   unaudited branch code never reaches the production database.
 
+- **D-57 Errors are reported to the server logs, not a third-party service** (NFR-7).
+  "Reports the error for diagnosis" means logging it where Vercel's runtime logs capture
+  it (server) or the browser console (client). No error-tracking service, and so no
+  extra environment variable, is added. The four variables in D-56 are the complete set;
+  a sprint that finds it needs another one stops and raises it with Master Controller.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel
