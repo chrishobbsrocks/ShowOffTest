@@ -12,18 +12,28 @@
  * enforces that everywhere else (req 3). Do not add colours anywhere but
  * here; reference these tokens by name instead.
  *
- * `@theme inline` (rather than a plain `:root { ... }` block) both defines
- * these as real CSS custom properties AND registers them as Tailwind CSS 4
- * theme values, so token-namespaced ones (colours, radius, shadow) are
- * usable as Tailwind utilities by name — e.g. `bg-bg-base`, `rounded-input`,
- * `shadow-sm` — with no separate config file. `inline` is required because
- * the type tokens below reference the font CSS variables from app/fonts.ts
- * (next/font), which are only real values once applied via a className;
- * Tailwind must keep emitting `var(--font-body)` rather than trying to
- * resolve it to a literal at build time.
+ * `@theme static inline` (rather than a plain `:root { ... }` block, or
+ * plain `@theme inline`) both defines these as real CSS custom properties
+ * AND registers them as Tailwind CSS 4 theme values, so token-namespaced
+ * ones (colours, radius, shadow) are usable as Tailwind utilities by name —
+ * e.g. `bg-bg-base`, `rounded-input`, `shadow-sm` — with no separate config
+ * file. `inline` is required because the type tokens below reference the
+ * font CSS variables from app/fonts.ts (next/font), which are only real
+ * values once applied via a className; Tailwind must keep emitting
+ * `var(--font-body)` rather than trying to resolve it to a literal at build
+ * time. `static` is required in addition: without it, Tailwind v4 tree-shakes
+ * any theme variable it doesn't see referenced by a utility class in the
+ * scanned source, which silently dropped 12 of these 24 tokens (QA1, sprint
+ * 1 round 1) — every token not itself used as a Tailwind utility class name
+ * (the 7 shape/shadow/border tokens, and 5 of the 7 type tokens, which are
+ * consumed via `var(--type-*)` in CSS rather than as utility classes).
+ * `static` forces every variable in this block to always emit, regardless
+ * of whether Tailwind's source scanner can see a use of it — see
+ * tests/tokens-compiled.test.ts, which compiles this file for real (rather
+ * than reading its source) and would have caught the drop.
  */
 
-@theme inline {
+@theme static inline {
   /* Colour tokens (10) — docs/design/design-tokens.md, "Colour — CSS variables" */
   --color-bg-base: #000000;
   --color-bg-surface: #0A0A0A;

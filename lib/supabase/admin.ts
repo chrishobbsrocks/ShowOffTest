@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
-import { getSupabaseSecretKey, getSupabaseUrl } from "@/lib/env";
+import { getSupabaseUrl } from "@/lib/env";
+import { getSupabaseSecretKey } from "@/lib/env.server";
 
 /**
  * A Supabase client authenticated with the secret (service-role) key. This

@@ -9,7 +9,12 @@
  * deep inside the Supabase client (NFR-7: no silent failure).
  */
 
-function required(name: string, value: string | undefined): string {
+/**
+ * Exported so lib/env.server.ts (the secret key's server-only home, see
+ * below) can reuse the same throw-loudly behaviour rather than duplicating
+ * it.
+ */
+export function required(name: string, value: string | undefined): string {
   if (!value) {
     throw new Error(
       `Missing required environment variable ${name}. Set it in .env.local ` +
@@ -38,11 +43,9 @@ export function getSiteUrl(): string {
   return required("NEXT_PUBLIC_SITE_URL", process.env.NEXT_PUBLIC_SITE_URL);
 }
 
-/**
- * Server code only. Callers must import this from a module guarded by
- * `server-only` (see lib/supabase/admin.ts) — this function does not
- * itself enforce that, so never call it from a module without that guard.
- */
-export function getSupabaseSecretKey(): string {
-  return required("SUPABASE_SECRET_KEY", process.env.SUPABASE_SECRET_KEY);
-}
+// getSupabaseSecretKey lives in lib/env.server.ts, not here: this module is
+// imported by lib/supabase/browser.ts (client code), and QA1's sprint 1
+// round 1 audit found that reading the secret key from a module reachable
+// from client code risks it landing in a client bundle once something
+// actually imports browser.ts from client code (SEC-4). Moving it to its
+// own `server-only`-guarded module makes that fail to import instead.

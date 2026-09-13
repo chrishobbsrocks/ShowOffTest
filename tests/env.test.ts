@@ -5,11 +5,14 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
  * rather than the Supabase client surfacing a confusing error later.
  */
 
+// SUPABASE_SECRET_KEY is not read here — that accessor lives in
+// lib/env.server.ts (a server-only-guarded module), covered by
+// tests/env-server.test.ts, not this file (sprint 1 QA1 round 1 fix: see
+// lib/env.server.ts's own comment for why).
 const VARS = [
   "NEXT_PUBLIC_SUPABASE_URL",
   "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
   "NEXT_PUBLIC_SITE_URL",
-  "SUPABASE_SECRET_KEY",
 ] as const;
 
 const originalValues = new Map<string, string | undefined>();
@@ -41,7 +44,6 @@ describe("lib/env", () => {
       /NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/,
     );
     expect(() => env.getSiteUrl()).toThrow(/NEXT_PUBLIC_SITE_URL/);
-    expect(() => env.getSupabaseSecretKey()).toThrow(/SUPABASE_SECRET_KEY/);
   });
 
   it("returns the value once the variable is set", async () => {

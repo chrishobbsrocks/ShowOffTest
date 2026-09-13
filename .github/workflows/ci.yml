@@ -27,9 +27,12 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      # Pinned to match the `supabase` devDependency version in package.json
+      # (QA1, sprint 1 round 1 non-blocking note: `latest` here could drift
+      # from what's pinned there and behave differently locally vs. in CI).
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.117.0
 
       - name: Start local Supabase and apply migrations
         run: supabase start
