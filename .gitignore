@@ -4,3 +4,6 @@ docs/sprints/.locks/
 
 # OS
 .DS_Store
+
+# Local role-session state (not durable project data)
+.claude/role-claims.json
