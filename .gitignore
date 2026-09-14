@@ -40,3 +40,6 @@ npm-debug.log*
 # Vercel CLI local linking
 .vercel
 
+# LiveQA's own production test-account credentials (D-65) — never committed
+.liveqa/
+
