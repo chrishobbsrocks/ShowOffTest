@@ -193,6 +193,40 @@ Recorded 2026-09-12 unless stated.
   process stands: Dev Team commits the fix, Pipeman reships, and LiveQA runs round 5,
   checking AC7 at 320 px, 375 px and desktop. The sprint file is not amended.
 
+- **D-64 Sprint 2's visual findings 4–6 stay in sprint 2, built from written frame
+  specs** (sprint 2 LiveQA round 1; recorded 2026-09-14). Finding 4 (landing, 1.00),
+  finding 5 (new-user home, 3.00) and finding 6 (log-out dialog, 8.14) are fixed in this
+  sprint's live-test loop, not deferred. Dev Team has no Figma access, so before it
+  starts, Master Controller writes exact specs for the three frames in `docs/design/`:
+  layout, sizes, positions, colours (mapped to tokens where one exists), type, layer
+  order, crops, and every asset each frame needs, with any asset the repository lacks
+  exported from Figma into `public/`. Dev Team builds from those files, and LiveQA and
+  QA1 check against them. A value that has no token is recorded in the spec with its
+  hex, and Master Controller decides in the spec whether it becomes a new token
+  (sprint 1's no-literal-colour rule still applies). Defects 1–3 (avatar picker
+  overflow, missing avatar message, offline login crash) are ordinary code fixes and
+  do not wait for the specs.
+- **D-65 LiveQA creates its own test accounts** (recorded 2026-09-14). From sprint 2's
+  round 2 on, LiveQA may create accounts on production itself, using `example.com`
+  addresses only (D-03) and a freshly generated throwaway password per account, so live
+  tests no longer need the operator to type a password. The account emails, and what
+  each was used for, go in the live-test notes (D-51). **Passwords do not:** the
+  repository `chrishobbsrocks/ShowOffTest` is public and the sprint state files are
+  committed, so a password in the notes would let anyone sign in to production as that
+  account. LiveQA keeps passwords only in `.liveqa/test-accounts.local`, which must be
+  git-ignored before first use (Pipeman adds the ignore line), and deletes the file's
+  entries once sprint 12 gives it a way to delete the accounts. The operator can reverse
+  this safeguard and have passwords recorded in the notes instead. The existing
+  `chris@example.com` account created by the operator stays the operator's.
+- **D-66 Live-loop fixes get a QA1 audit before Pipeman reships** (recorded
+  2026-09-14). When LiveQA fails or conditions a sprint and Dev Team commits a fix,
+  QA1 audits that fix commit and records it with `/sprint-qa1` while the sprint is in
+  its live-test phase (the lifecycle supports this as a live-loop audit), before
+  Pipeman runs `/sprint-reship`. Pipeman reships only a commit QA1 has passed in that
+  loop. `/sprint-reship` does not enforce this mechanically, so it is a process rule
+  that Pipeman checks in `/sprint-status` before reshipping. It applies to sprint 2's
+  current loop and every later one.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel
