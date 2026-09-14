@@ -227,6 +227,21 @@ Recorded 2026-09-12 unless stated.
   that Pipeman checks in `/sprint-status` before reshipping. It applies to sprint 2's
   current loop and every later one.
 
+- **D-67 Frame specs for sprint 2's visual fixes are written** (recorded 2026-09-14,
+  under D-64). `docs/design/frame-spec-1.00-landing.md`,
+  `docs/design/frame-spec-3.00-new-user-home.md` and
+  `docs/design/frame-spec-8.14-log-out-confirmation.md` are the build and check source
+  for findings 4–6, with 2× reference exports in `docs/design/frames/`, new assets in
+  `public/landing/`, `public/icons/` and `public/host/host-bust-neutral.svg`, and five
+  new colour tokens in `design-tokens.md` ("Rebuild additions"). Decisions taken inside
+  the specs: Verdana text on 1.00 and 3.00 is set in Space Grotesk (two-typeface rule);
+  the 🏆 on 3.00 is the Unicode emoji, because Figma's view-only export of that image is
+  blank; the landing log-in prompt is centred, not 11 px left as drawn; the tab bar's
+  unreadable "Glass Effect" becomes a 12 px backdrop blur, checked visually only; the
+  3.00 heading's second line is 40 px, derived from its measured cap height; widths
+  other than 375 follow each spec's section on widths. The tab bar spec applies to every
+  screen that shows it.
+
 ## Leaderboards and onboarding
 
 - **D-40 Any arena's leaderboard can be browsed** from the design's carousel

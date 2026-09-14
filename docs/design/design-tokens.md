@@ -117,3 +117,24 @@ text `--color-accent`, radius 10px, `shadow-sm`, `type-button`.
 `scroll-snap-align: center`, avatars 68×68, gap ~15px (83px centre to centre),
 left padding 45px, 10 items, selection `box-shadow: 0 0 0 2.5px` accent,
 scrollbar hidden.
+
+---
+
+## Rebuild additions (Master Controller, from the live Figma frames)
+
+Recorded 2026-09-14 while writing the frame specs in `docs/design/frame-spec-*.md` (D-64).
+These colours appear on design frames but not in the original 17-token set above. Each
+becomes a named token in the token stylesheet; components use the name, never the hex. The
+verbatim sections above, and the sprint 1 drift test that reads them, are unchanged.
+
+| Token | Value | Figma source | Used for |
+|---|---|---|---|
+| `--color-bg-landing-hero` | `#251F1F` | frame `1.00 - Landing` fill | Landing hero stage background |
+| `--color-bg-home-glow` | `#1D4D49` | frame `3.00 - Home - New User` radial gradient, centre stop | New-user home background centre |
+| `--color-bg-home-edge` | `#082530` | same gradient, outer stop | New-user home background edge |
+| `--color-arena-1-label` | `#4DFAF7` | text `Arena 1 · Warm Up` on 3.00 | Arena 1 label text |
+| `--color-tab-bar-border` | `#888888` | `tab bar` component, `Fill + Shadow` layer | Tab bar border |
+
+Translucent blacks on these frames (overlays, cards, speech tags, shadows, tab bar fill) are
+`--color-bg-base` with an opacity, not separate tokens. Colours inside exported SVG assets
+under `public/` (spotlight, host bust) are part of those assets and are not tokens.
